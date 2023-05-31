@@ -1,5 +1,6 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.models.PersistenceBySerialization;
 import com.pictoseq.models.Sequentiel;
 import com.pictoseq.models.SequentielList;
 import javafx.fxml.FXML;
@@ -19,15 +20,20 @@ public class MainController {
     @FXML
     private Button newSeqBtn;
     private SequentielList sequentielList;
+    private PersistentModelManager persistentModelManager;
 
     @FXML
     private void initialize() {
+        // Chargement de la liste des séquenciels depuis le fichier de sauvegarde
+        persistentModelManager = new PersistenceBySerialization();
+        sequentielList = persistentModelManager.load();
+
         // Ouvre la fenêtre de création d'un nouveau séquenciel
         newSeqBtn.setOnAction(event -> {
-            System.out.println("New sequenciel");
-            sequentielList.add(new Sequentiel());
+            Sequentiel sequentiel = new Sequentiel();
+            sequentielList.add(sequentiel);
             try {
-                openEditWindow(sequentielList.get(sequentielList.size() - 1));
+                openEditWindow(sequentiel);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -44,7 +50,7 @@ public class MainController {
         });
 
         // Affiche la liste des séquenciels
-        System.out.println("Liste des séquenciels");
+        // TODO: Afficher la liste des séquenciels
     }
 
     private void openEditWindow(Sequentiel sequentiel) throws IOException {
@@ -58,10 +64,8 @@ public class MainController {
         editStage.setScene(new Scene(root));
         editController.setSequentiel(sequentiel);
         editStage.showAndWait();
-    }
 
-    public void saveSequentielList() {
-        // TODO: Sauvegarder la liste des séquenciels
+        // Sauvegarder la liste des séquenciels quand la fenêtre de modification est fermée
+        persistentModelManager.save(sequentielList);
     }
-
 }
