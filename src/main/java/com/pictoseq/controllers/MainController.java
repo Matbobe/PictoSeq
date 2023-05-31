@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -21,11 +23,16 @@ public class MainController {
     private TilePane SeqListGrid;
     @FXML
     private Button newSeqBtn;
+    @FXML
+    private ScrollPane scrollPane;
     private SequentielList sequentielList;
     private PersistentModelManager persistentModelManager;
 
     @FXML
     private void initialize() {
+        // Permet de redimensionner la liste des séquenciels en fonction de la taille de la fenêtre
+        SeqListGrid.prefWidthProperty().bind(scrollPane.widthProperty());
+
         // Chargement de la liste des séquenciels depuis le fichier de sauvegarde
         persistentModelManager = new PersistenceBySerialization();
         sequentielList = persistentModelManager.load();
@@ -34,6 +41,7 @@ public class MainController {
         newSeqBtn.setOnAction(event -> {
             Sequentiel sequentiel = new Sequentiel("Nouveau séquenciel n°" + (sequentielList.size() + 1));
             sequentielList.add(sequentiel);
+            renderSequentielList();
             try {
                 openEditWindow(sequentiel);
             } catch (IOException e) {
@@ -82,6 +90,10 @@ public class MainController {
 
     private VBox renderSequentiel(Sequentiel sequentiel) {
         VBox sequentielBox = new VBox();
+        sequentielBox.setPrefWidth(200);
+        sequentielBox.setPrefHeight(100);
+        sequentielBox.setSpacing(10);
+        sequentielBox.getStyleClass().add("sequentiel");
         sequentielBox.getChildren().add(new Label(sequentiel.getName()));
         return sequentielBox;
     }

@@ -42,3 +42,7 @@
 .scroll-pane {
     -fx-background-color:transparent;
 }
+/* ==================== SEQUENTIEL DANS LA LISTE ==================== */
+.sequentiel {
+    -fx-background-color: red;
+}
