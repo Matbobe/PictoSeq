@@ -3,6 +3,7 @@ package com.pictoseq.controllers;
 import com.pictoseq.models.Pictograme;
 import com.pictoseq.models.SearchList;
 import com.pictoseq.models.Sequentiel;
+import com.pictoseq.models.SequentielList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -82,5 +83,7 @@ public class EditController {
 
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
+    public void setSequentiel(Sequentiel sequentiel) {
+        this.sequentiel = sequentiel;
     }
 }
