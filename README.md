@@ -25,7 +25,7 @@ L'application a été développée en utilisant Javafx. L'évaluation se fera su
 ## 6. TODO
 | Fonctionnalité                                                      | Description                                                                                                                      | État          |
 |---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|---------------|
-| Recherche de pictogrammes                                           | Implémenter la fonctionnalité permettant de rechercher des pictogrammes par mot-clé ou en parcourant des catégories prédéfinies. | Pas commencer |
+| Recherche de pictogrammes                                           | Implémenter la fonctionnalité permettant de rechercher des pictogrammes par mot-clé ou en parcourant des catégories prédéfinies. | En cours      |
 | Création de séquences de pictogrammes                               | Développer la fonctionnalité pour créer de nouvelles séquences de pictogrammes.                                                  | Pas commencer |
 | Suppression de séquences de pictogrammes                            | Ajouter la possibilité de supprimer des séquences de pictogrammes existantes.                                                    | Pas commencer |
 | Ajout de pictogrammes aux séquences                                 | Permettre l'ajout de pictogrammes dans les séquences à partir des résultats de recherche.                                        | Pas commencer |

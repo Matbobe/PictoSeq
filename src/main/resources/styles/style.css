@@ -36,5 +36,9 @@
     -fx-background-color:derive(black,90%);
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;
+}
 
+/* ==================== SCROLL PANE ==================== */
+.scroll-pane {
+    -fx-background-color:transparent;
 }
