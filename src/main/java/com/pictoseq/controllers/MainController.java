@@ -30,7 +30,7 @@ public class MainController {
 
         // Ouvre la fenêtre de création d'un nouveau séquenciel
         newSeqBtn.setOnAction(event -> {
-            Sequentiel sequentiel = new Sequentiel();
+            Sequentiel sequentiel = new Sequentiel("Nouveau séquenciel n°" + (sequentielList.size() + 1));
             sequentielList.add(sequentiel);
             try {
                 openEditWindow(sequentiel);

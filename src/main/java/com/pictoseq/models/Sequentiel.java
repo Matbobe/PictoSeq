@@ -11,19 +11,21 @@ public class Sequentiel {
     private final List<Pictograme> pictogrameList;
     private Pane pane;
     private boolean horizontal;
-    public Sequentiel(BorderPane borderPane) {
+    private String name;
+
+    public Sequentiel(BorderPane borderPane, String name) {
         this.pictogrameList = new LinkedList<>();
         horizontal = true;
         this.pane = new HBox();
         borderPane.setCenter(this.pane);
-
+        this.name = name;
     }
 
-    public Sequentiel() {
+    public Sequentiel(String name) {
         this.pictogrameList = new LinkedList<>();
         horizontal = true;
         this.pane = new HBox();
-
+        this.name = name;
     }
 
     public Sequentiel(LinkedList<Pictograme> pictogrameList) {
@@ -70,5 +72,13 @@ public class Sequentiel {
 
     public Pane getPane() {
         return pane;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
