@@ -2,6 +2,7 @@ package com.pictoseq.models;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pictoseq.controllers.EditController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -22,11 +23,14 @@ public class SearchList {
     @FXML
     private GridPane searchListGrid;
     private final HttpClient client;
+
+    private final EditController editController;
     private int nbRendered;
-    public SearchList(GridPane searchListGrid, HttpClient client) {
+    public SearchList(GridPane searchListGrid, HttpClient client, EditController editController){
         this.searchListGrid = searchListGrid;
         this.pictogrameList = new ArrayList<>(MAX_SIZE);
         this.client = client;
+        this.editController = editController;
     }
 
     public void searchRequest(String text, String category) throws IOException, InterruptedException {
@@ -79,16 +83,13 @@ public class SearchList {
             protected Void call() throws IOException, InterruptedException {
                 HttpResponse<InputStream> response = pictograme.render(client);
                 if (response.statusCode() == 200) {
-                    javafx.scene.image.Image image = new javafx.scene.image.Image(response.body());
-                    javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(image);
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(100);
-                    imageView.setOnMouseClicked(e -> {
-                        System.out.println(pictograme);
-                    });
                     // Mettre a jour sur le thread de l'application JavaFX
                     Platform.runLater(() -> {
-                        searchListGrid.add(imageView, index % 2, index / 2);
+                        searchListGrid.add(pictograme.getImageView(), index % 2, index / 2);
+                        int taille = searchListGrid.getChildren().size();
+                        searchListGrid.getChildren().get(taille - 1).setOnMouseClicked(e -> {
+                            editController.addPictogramme(pictograme);
+                        });
                         nbRendered++;
                     });
                 }

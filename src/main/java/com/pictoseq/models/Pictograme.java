@@ -1,8 +1,12 @@
 package com.pictoseq.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,11 +21,14 @@ public class Pictograme {
     public final String _id;
     public final String keyword;
     public final LinkedList<String> categories;
+    @JsonIgnore
+    private ImageView imageView;
 
     public Pictograme() {
         this._id = null;
         this.keyword = null;
         this.categories = null;
+        this.imageView = null;
     }
 
     @JsonCreator
@@ -68,6 +75,10 @@ public class Pictograme {
 
         try {
             HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            Image image = new Image(response.body());
+            imageView = new ImageView(image);
+            imageView.setFitHeight(100);
+            imageView.setFitWidth(100);
             return response;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -75,4 +86,7 @@ public class Pictograme {
         return null;
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
 }

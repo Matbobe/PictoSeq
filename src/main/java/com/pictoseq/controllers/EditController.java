@@ -1,12 +1,16 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.models.Pictograme;
 import com.pictoseq.models.SearchList;
+import com.pictoseq.models.Sequentiel;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.util.concurrent.ExecutionException;
@@ -20,9 +24,15 @@ public class EditController {
     private GridPane searchListGrid;
 
     @FXML
+    private Pane sequentielPane;
+    private Sequentiel sequentiel;
+
+    @FXML
     void initialize() {
         client = HttpClient.newHttpClient();
-        searchList = new SearchList(searchListGrid, client);
+        searchList = new SearchList(searchListGrid, client, this);
+        sequentiel = new Sequentiel();
+        sequentielPane = sequentiel.getPane();
     }
     @FXML
     void handleTextSearch(KeyEvent event) {
@@ -68,5 +78,9 @@ public class EditController {
         if (lastCellBottom < searchListGridBottom) return; // Si la dernière cellule n'est pas en bas de la grille, on ne fait rien
 
         searchList.renderNext();
+    }
+
+    public void addPictogramme(Pictograme pictograme) {
+        sequentiel.addPictograme(pictograme);
     }
 }
