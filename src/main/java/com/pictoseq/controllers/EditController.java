@@ -1,10 +1,12 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.app.Application;
 import com.pictoseq.models.Pictograme;
 import com.pictoseq.models.SearchList;
 import com.pictoseq.models.Sequentiel;
 import com.pictoseq.models.SequentielList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -12,6 +14,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -29,6 +32,12 @@ public class EditController {
     @FXML
     private Pane sequentielPane;
     private Sequentiel sequentiel;
+
+    @FXML
+    void onRetourClick(ActionEvent event) {
+        Stage editStage = (Stage) borderPane.getScene().getWindow();
+        editStage.close();
+    }
 
     @FXML
     void initialize() {

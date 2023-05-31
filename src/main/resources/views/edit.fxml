@@ -220,7 +220,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="100.0" prefWidth="10000.0">
                <children>
-                  <Button cache="true" mnemonicParsing="false" style="-fx-background-color: none; -fx-text-fill: #3056d3; -fx-font-size: 16px;" text="&lt; Retour" textFill="#3056d3">
+                  <Button cache="true" mnemonicParsing="false" onAction="#onRetourClick" style="-fx-background-color: none; -fx-text-fill: #3056d3; -fx-font-size: 16px;" text="&lt; Retour" textFill="#3056d3">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
