@@ -1,6 +1,7 @@
 package com.pictoseq.controllers;
 
 import com.pictoseq.models.SearchList;
+import com.pictoseq.models.SequentielList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -68,5 +69,9 @@ public class EditController {
         if (lastCellBottom < searchListGridBottom) return; // Si la dernière cellule n'est pas en bas de la grille, on ne fait rien
 
         searchList.renderNext();
+    }
+
+    public void setSequentiel(Sequentiel sequentiel) {
+        this.sequentiel = sequentiel;
     }
 }
