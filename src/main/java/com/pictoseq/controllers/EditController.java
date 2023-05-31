@@ -83,6 +83,7 @@ public class EditController {
 
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
+    }
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;
     }

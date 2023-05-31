@@ -1,5 +1,6 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.models.Sequentiel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,12 +38,13 @@ public class MainController {
     private void openEditWindow(Sequentiel sequentiel) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/edit.fxml"));
         Parent root = loader.load();
+        EditController editController = loader.getController();
 
         Stage editStage = new Stage();
         editStage.initModality(Modality.APPLICATION_MODAL);
         editStage.setTitle("Modifier un séquenciel");
         editStage.setScene(new Scene(root));
-        editStage.setSequentiel(sequentiel);
+        editController.setSequentiel(sequentiel);
         editStage.showAndWait();
     }
 
