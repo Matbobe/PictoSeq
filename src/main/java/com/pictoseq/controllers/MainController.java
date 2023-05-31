@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class MainController {
     @FXML
-    private GridPane SeqListGrid;
+    private TilePane SeqListGrid;
     @FXML
     private Button newSeqBtn;
     private SequentielList sequentielList;
@@ -70,9 +70,11 @@ public class MainController {
 
         // Sauvegarder la liste des séquenciels quand la fenêtre de modification est fermée
         persistentModelManager.save(sequentielList);
+        renderSequentielList();
     }
 
     private void renderSequentielList() {
+        SeqListGrid.getChildren().clear();
         for (int i = 0; i < sequentielList.size(); i++) {
             SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
         }
