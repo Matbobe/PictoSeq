@@ -269,4 +269,7 @@
          </children>
       </HBox>
    </top>
+   <center>
+      <Pane fx:id="sequentielPane" prefHeight="290.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
