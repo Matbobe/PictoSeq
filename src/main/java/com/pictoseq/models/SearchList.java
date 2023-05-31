@@ -2,11 +2,16 @@ package com.pictoseq.models;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pictoseq.app.Application;
 import com.pictoseq.controllers.EditController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,10 +90,28 @@ public class SearchList {
                 if (response.statusCode() == 200) {
                     // Mettre a jour sur le thread de l'application JavaFX
                     Platform.runLater(() -> {
-                        searchListGrid.add(pictograme.getImageViewCopy(), index % 2, index / 2);
+                        Pane pane = new Pane();
+                        pane.setPrefSize(100, 100);
+                        Image image = new Image(getClass().getResource("/images/plus-icon.png").toExternalForm());
+                        ImageView plus = new ImageView(image);
+                        plus.setFitHeight(20);
+                        plus.setFitWidth(20);
+                        plus.setLayoutX(40);
+                        plus.setLayoutY(40);
+                        plus.setVisible(false);
+                        pane.getChildren().addAll(pictograme.getImageView(),plus);
+                        searchListGrid.add(pane, index % 2, index / 2);
                         int taille = searchListGrid.getChildren().size();
-                        searchListGrid.getChildren().get(taille - 1).setOnMouseClicked(e -> {
+                        pane.setOnMouseClicked(e -> {
                             editController.addPictogramme(new Pictograme(pictograme));
+                        });
+                        pane.setOnMouseEntered(e -> {
+                            plus.setVisible(true);
+                            pane.setStyle("-fx-background-color: #f0f0f0");
+                        });
+                        pane.setOnMouseExited(e -> {
+                            plus.setVisible(false);
+                            pane.setStyle("-fx-background-color: #ffffff");
                         });
                         nbRendered++;
                     });
