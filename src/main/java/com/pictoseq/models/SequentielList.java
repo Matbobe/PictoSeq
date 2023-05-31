@@ -10,6 +10,10 @@ public class SequentielList {
         this.sequentielList = new LinkedList<>(sequentielList);
     }
 
+    public SequentielList() {
+        this.sequentielList = new LinkedList<>();
+    }
+
     public List<Sequentiel> getPictogrameList() {
         return sequentielList;
     }
