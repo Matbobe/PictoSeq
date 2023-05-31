@@ -1,5 +1,6 @@
 package com.pictoseq.models;
 
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -10,10 +11,12 @@ public class Sequentiel {
     private final List<Pictograme> pictogrameList;
     private Pane pane;
     private boolean horizontal;
-    public Sequentiel() {
+    public Sequentiel(BorderPane borderPane) {
         this.pictogrameList = new LinkedList<>();
         horizontal = true;
-        pane = new HBox();
+        this.pane = new HBox();
+        borderPane.setCenter(this.pane);
+
     }
 
     public Sequentiel(LinkedList<Pictograme> pictogrameList) {

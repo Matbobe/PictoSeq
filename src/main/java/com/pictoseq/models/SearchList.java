@@ -85,10 +85,10 @@ public class SearchList {
                 if (response.statusCode() == 200) {
                     // Mettre a jour sur le thread de l'application JavaFX
                     Platform.runLater(() -> {
-                        searchListGrid.add(pictograme.getImageView(), index % 2, index / 2);
+                        searchListGrid.add(pictograme.getImageViewCopy(), index % 2, index / 2);
                         int taille = searchListGrid.getChildren().size();
                         searchListGrid.getChildren().get(taille - 1).setOnMouseClicked(e -> {
-                            editController.addPictogramme(pictograme);
+                            editController.addPictogramme(new Pictograme(pictograme));
                         });
                         nbRendered++;
                     });

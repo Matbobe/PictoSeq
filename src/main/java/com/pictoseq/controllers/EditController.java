@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -20,10 +21,11 @@ public class EditController {
     private HttpClient client;
     public SearchList searchList;
     @FXML
+    private BorderPane borderPane;
+    @FXML
     private TextField searchBar;
     @FXML
     private GridPane searchListGrid;
-
     @FXML
     private Pane sequentielPane;
     private Sequentiel sequentiel;
@@ -32,8 +34,7 @@ public class EditController {
     void initialize() {
         client = HttpClient.newHttpClient();
         searchList = new SearchList(searchListGrid, client, this);
-        sequentiel = new Sequentiel();
-        sequentielPane = sequentiel.getPane();
+        sequentiel = new Sequentiel(borderPane);
     }
     @FXML
     void handleTextSearch(KeyEvent event) {
@@ -83,6 +84,7 @@ public class EditController {
 
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
+        System.out.println(sequentiel);
     }
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;

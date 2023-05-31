@@ -40,6 +40,13 @@ public class Pictograme {
         this.categories = categories;
     }
 
+    public Pictograme(Pictograme pictograme) {
+        this._id = pictograme._id;
+        this.keyword = pictograme.keyword;
+        this.categories = new LinkedList<>(pictograme.categories);
+        this.imageView = pictograme.getImageViewCopy();
+    }
+
     public String get_id() {
         return _id;
     }
@@ -86,7 +93,14 @@ public class Pictograme {
         return null;
     }
 
-    public ImageView getImageView() {
+    public ImageView getImageViewCopy() {
+        ImageView imageViewCopy = new ImageView(imageView.getImage());
+        imageViewCopy.setFitHeight(100);
+        imageViewCopy.setFitWidth(100);
+        return imageViewCopy;
+    }
+
+    public Node getImageView() {
         return imageView;
     }
 }
