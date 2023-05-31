@@ -15,6 +15,7 @@ public class PersistenceBySerialization implements PersistentModelManager {
             System.out.println("SAVE OK");
         } catch (IOException e) {
             System.err.println("Saving file error");
+            e.printStackTrace();
         }
     }
 

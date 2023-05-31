@@ -4,12 +4,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Sequentiel {
+@SuppressWarnings("serial")
+public class Sequentiel implements Serializable {
     private final List<Pictograme> pictogrameList;
-    private Pane pane;
+    private transient Pane pane;
     private boolean horizontal;
     private String name;
 

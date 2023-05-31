@@ -1,9 +1,12 @@
 package com.pictoseq.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SequentielList {
+@SuppressWarnings("serial")
+public class SequentielList extends ArrayList<Sequentiel> implements Serializable {
     private final LinkedList<Sequentiel> sequentielList;
 
     public SequentielList(List<Sequentiel> sequentielList) {
@@ -35,7 +38,8 @@ public class SequentielList {
         return sequentielList.size();
     }
 
-    public void add(Sequentiel sequentiel) {
+    public boolean add(Sequentiel sequentiel) {
         sequentielList.add(sequentiel);
+        return false;
     }
 }

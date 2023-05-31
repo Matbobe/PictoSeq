@@ -10,14 +10,16 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedList;
 
+@SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pictograme {
+public class Pictograme implements Serializable {
     public final String _id;
     public final String keyword;
     public final LinkedList<String> categories;

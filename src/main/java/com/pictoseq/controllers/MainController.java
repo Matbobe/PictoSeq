@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -50,7 +52,7 @@ public class MainController {
         });
 
         // Affiche la liste des séquenciels
-        // TODO: Afficher la liste des séquenciels
+        renderSequentielList();
     }
 
     private void openEditWindow(Sequentiel sequentiel) throws IOException {
@@ -62,10 +64,23 @@ public class MainController {
         editStage.initModality(Modality.APPLICATION_MODAL);
         editStage.setTitle("Modifier un séquenciel");
         editStage.setScene(new Scene(root));
+        editStage.setMaximized(true);
         editController.setSequentiel(sequentiel);
         editStage.showAndWait();
 
         // Sauvegarder la liste des séquenciels quand la fenêtre de modification est fermée
         persistentModelManager.save(sequentielList);
+    }
+
+    private void renderSequentielList() {
+        for (int i = 0; i < sequentielList.size(); i++) {
+            SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
+        }
+    }
+
+    private VBox renderSequentiel(Sequentiel sequentiel) {
+        VBox sequentielBox = new VBox();
+        sequentielBox.getChildren().add(new Label(sequentiel.getName()));
+        return sequentielBox;
     }
 }
