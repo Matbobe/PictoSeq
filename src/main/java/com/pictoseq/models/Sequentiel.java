@@ -19,6 +19,13 @@ public class Sequentiel {
 
     }
 
+    public Sequentiel() {
+        this.pictogrameList = new LinkedList<>();
+        horizontal = true;
+        this.pane = new HBox();
+
+    }
+
     public Sequentiel(LinkedList<Pictograme> pictogrameList) {
         this.pictogrameList = pictogrameList;
     }
