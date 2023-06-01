@@ -87,7 +87,9 @@ public class MainController {
 
     private void renderSequentielList() {
         SeqListGrid.getChildren().clear();
-        for (Sequentiel sequentiel : sequentielList) SeqListGrid.getChildren().add(renderSequentiel(sequentiel));
+        for (int i = 0; i < sequentielList.size(); i++) {
+            SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
+        }
     }
 
     private VBox renderSequentiel(Sequentiel sequentiel) {
