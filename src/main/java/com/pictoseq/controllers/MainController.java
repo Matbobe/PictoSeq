@@ -5,17 +5,20 @@ import com.pictoseq.models.Sequentiel;
 import com.pictoseq.models.SequentielList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainController {
@@ -90,11 +93,49 @@ public class MainController {
 
     private VBox renderSequentiel(Sequentiel sequentiel) {
         VBox sequentielBox = new VBox();
+        HBox header = new HBox();
+        Pane spacer = new Pane();
+        ImageView dupliIcon = new ImageView(String.valueOf(getClass().getResource("/images/dupli-icon.png")));
+        ImageView deleteIcon =  new ImageView(String.valueOf(getClass().getResource("/images/delete-icon.png")));
+
         sequentielBox.setPrefWidth(200);
         sequentielBox.setPrefHeight(100);
         sequentielBox.setSpacing(10);
+        sequentielBox.setPadding(new Insets(5));
         sequentielBox.getStyleClass().add("sequentiel");
+        //Header
+        header.setPrefHeight(20);
+        header.setPrefWidth(200);
+        header.setAlignment(Pos.CENTER_RIGHT);
+
+        dupliIcon.setFitHeight(20);
+        dupliIcon.setFitWidth(20);
+        // TODO: dupliquer le séquenciel (ne marche pas)
+        dupliIcon.setOnMouseClicked(event -> duplicateSequentiel(sequentiel));
+        deleteIcon.setFitHeight(20);
+        deleteIcon.setFitWidth(20);
+        // TODO: supprimer le séquenciel (ne marche pas)
+        deleteIcon.setOnMouseClicked(event -> deleteSequentiel(sequentiel));
+        header.getChildren().add(dupliIcon);
+        header.getChildren().add(deleteIcon);
+        sequentielBox.getChildren().add(header);
+        // Middle
+        spacer.setPrefHeight(50);
+        sequentielBox.getChildren().add(spacer);
+        // Footer
         sequentielBox.getChildren().add(new Label(sequentiel.getName()));
         return sequentielBox;
+    }
+
+    private void deleteSequentiel(Sequentiel sequentiel) {
+        sequentielList.remove(sequentiel);
+        renderSequentielList();
+    }
+
+    private void duplicateSequentiel(Sequentiel sequentiel) {
+        // TODO: dupliquer le séquenciel
+        Sequentiel newSequentiel = new Sequentiel(sequentiel.getName() + " (copie)");
+        sequentielList.add(newSequentiel);
+        renderSequentielList();
     }
 }

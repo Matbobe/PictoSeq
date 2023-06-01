@@ -24,7 +24,7 @@ public class Pictograme implements Serializable {
     public final String keyword;
     public final LinkedList<String> categories;
     @JsonIgnore
-    private ImageView imageView;
+    private transient ImageView imageView;
 
     public Pictograme() {
         this._id = null;
