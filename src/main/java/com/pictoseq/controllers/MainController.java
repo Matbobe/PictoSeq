@@ -12,13 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainController {
@@ -86,9 +87,7 @@ public class MainController {
 
     private void renderSequentielList() {
         SeqListGrid.getChildren().clear();
-        for (int i = 0; i < sequentielList.size(); i++) {
-            SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
-        }
+        for (Sequentiel sequentiel : sequentielList) SeqListGrid.getChildren().add(renderSequentiel(sequentiel));
     }
 
     private VBox renderSequentiel(Sequentiel sequentiel) {
@@ -96,7 +95,7 @@ public class MainController {
         HBox header = new HBox();
         Pane spacer = new Pane();
         ImageView dupliIcon = new ImageView(String.valueOf(getClass().getResource("/images/dupli-icon.png")));
-        ImageView deleteIcon =  new ImageView(String.valueOf(getClass().getResource("/images/delete-icon.png")));
+        ImageView deleteIcon = new ImageView(String.valueOf(getClass().getResource("/images/delete-icon.png")));
 
         sequentielBox.setPrefWidth(200);
         sequentielBox.setPrefHeight(100);
