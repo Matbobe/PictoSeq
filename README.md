@@ -26,9 +26,9 @@ L'application a été développée en utilisant Javafx. L'évaluation se fera su
 | Fonctionnalité                                                      | Description                                                                                                                      | État          |
 |---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|---------------|
 | Recherche de pictogrammes                                           | Implémenter la fonctionnalité permettant de rechercher des pictogrammes par mot-clé ou en parcourant des catégories prédéfinies. | En cours      |
-| Création de séquences de pictogrammes                               | Développer la fonctionnalité pour créer de nouvelles séquences de pictogrammes.                                                  | Pas commencer |
-| Suppression de séquences de pictogrammes                            | Ajouter la possibilité de supprimer des séquences de pictogrammes existantes.                                                    | Pas commencer |
-| Ajout de pictogrammes aux séquences                                 | Permettre l'ajout de pictogrammes dans les séquences à partir des résultats de recherche.                                        | Pas commencer |
+| Création de séquences de pictogrammes                               | Développer la fonctionnalité pour créer de nouvelles séquences de pictogrammes.                                                  | Fait          |
+| Suppression de séquences de pictogrammes                            | Ajouter la possibilité de supprimer des séquences de pictogrammes existantes.                                                    | En cours      |
+| Ajout de pictogrammes aux séquences                                 | Permettre l'ajout de pictogrammes dans les séquences à partir des résultats de recherche.                                        | En cours      |
 | Retrait de pictogrammes des séquences                               | Implémenter la fonctionnalité pour retirer des pictogrammes des séquences.                                                       | Pas commencer |
 | Édition de pictogrammes dans les séquences                          | Ajouter la possibilité d'éditer (ajouter un texte) les pictogrammes dans les séquences.                                          | Pas commencer |
 | Réorganisation des pictogrammes dans les séquences                  | Permettre la réorganisation des pictogrammes dans les séquences.                                                                 | Pas commencer |
@@ -36,8 +36,8 @@ L'application a été développée en utilisant Javafx. L'évaluation se fera su
 | Choix de l'affichage et du positionnement optionnel d'un numéro     | Implémenter la fonctionnalité pour choisir l'affichage et le positionnement optionnel d'un numéro.                               | Pas commencer |
 | Choix du type et de la couleur de la bordure pour toute la séquence | Ajouter une option pour choisir le type et la couleur de la bordure pour toute la séquence.                                      | Pas commencer |
 | Nomination des séquences                                            | Permettre de nommer les séquences.                                                                                               | Pas commencer |
-| Sauvegarde des séquences                                            | Implémenter la fonctionnalité pour sauvegarder les séquences.                                                                    | Pas commencer |
-| Ouverture des séquences                                             | Ajouter la possibilité d'ouvrir les séquences.                                                                                   | Pas commencer |
+| Sauvegarde des séquences                                            | Implémenter la fonctionnalité pour sauvegarder les séquences.                                                                    | En cours      |
+| Ouverture des séquences                                             | Ajouter la possibilité d'ouvrir les séquences.                                                                                   | En cours      |
 | Impression d'une séquence                                           | Développer la fonctionnalité pour imprimer une séquence (génération d'un PDF).                                                   | Pas commencer |
 
 ## 7. Conclusion
