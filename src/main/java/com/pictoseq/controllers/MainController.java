@@ -102,23 +102,37 @@ public class MainController {
         sequentielBox.setPrefWidth(200);
         sequentielBox.setPrefHeight(100);
         sequentielBox.setSpacing(10);
-        sequentielBox.setPadding(new Insets(5));
+        sequentielBox.setPadding(new Insets(0, 0, 5, 5));
         sequentielBox.getStyleClass().add("sequentiel");
         //Header
         header.setPrefHeight(20);
         header.setPrefWidth(200);
         header.setAlignment(Pos.CENTER_RIGHT);
 
-        dupliIcon.setFitHeight(20);
-        dupliIcon.setFitWidth(20);
-        // TODO: dupliquer le séquenciel (ne marche pas)
-        dupliIcon.setOnMouseClicked(event -> duplicateSequentiel(sequentiel));
-        deleteIcon.setFitHeight(20);
-        deleteIcon.setFitWidth(20);
-        // TODO: supprimer le séquenciel (ne marche pas)
-        deleteIcon.setOnMouseClicked(event -> deleteSequentiel(sequentiel));
-        header.getChildren().add(dupliIcon);
-        header.getChildren().add(deleteIcon);
+        // Dupliquer
+        dupliIcon.setFitHeight(25);
+        dupliIcon.setFitWidth(25);
+        Pane dupliPane = new Pane(dupliIcon);
+        dupliPane.setPrefSize(30, 30);
+        dupliPane.setOnMouseClicked(event -> {
+            duplicateSequentiel(sequentiel);
+            event.consume();
+        });
+
+        // Supprimer
+        deleteIcon.setFitHeight(25);
+        deleteIcon.setFitWidth(25);
+        Pane deletePane = new Pane(deleteIcon);
+        deletePane.setPrefSize(30, 30);
+        deletePane.setOnMouseClicked(event -> {
+            System.out.println("Delete clicked");
+            deleteSequentiel(sequentiel);
+            event.consume();
+        });
+
+        header.getChildren().add(dupliPane);
+        header.getChildren().add(deletePane);
+
         sequentielBox.getChildren().add(header);
         // Middle
         spacer.setPrefHeight(50);
@@ -129,12 +143,12 @@ public class MainController {
     }
 
     private void deleteSequentiel(Sequentiel sequentiel) {
+        // TODO: Ne marche pas car le séquenciel est toujours dans la liste
         sequentielList.remove(sequentiel);
         renderSequentielList();
     }
 
     private void duplicateSequentiel(Sequentiel sequentiel) {
-        // TODO: dupliquer le séquenciel
         Sequentiel newSequentiel = new Sequentiel(sequentiel.getName() + " (copie)");
         sequentielList.add(newSequentiel);
         renderSequentielList();

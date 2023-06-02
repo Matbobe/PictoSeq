@@ -42,4 +42,5 @@ public class SequentielList extends ArrayList<Sequentiel> implements Serializabl
         sequentielList.add(sequentiel);
         return false;
     }
+
 }
