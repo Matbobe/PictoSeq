@@ -5,10 +5,18 @@ import com.pictoseq.models.Sequentiel;
 import com.pictoseq.models.SequentielList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -16,14 +24,19 @@ import java.io.IOException;
 
 public class MainController {
     @FXML
-    private GridPane SeqListGrid;
+    private TilePane SeqListGrid;
     @FXML
     private Button newSeqBtn;
+    @FXML
+    private ScrollPane scrollPane;
     private SequentielList sequentielList;
     private PersistentModelManager persistentModelManager;
 
     @FXML
     private void initialize() {
+        // Permet de redimensionner la liste des séquenciels en fonction de la taille de la fenêtre
+        SeqListGrid.prefWidthProperty().bind(scrollPane.widthProperty());
+
         // Chargement de la liste des séquenciels depuis le fichier de sauvegarde
         persistentModelManager = new PersistenceBySerialization();
         sequentielList = persistentModelManager.load();
@@ -32,6 +45,7 @@ public class MainController {
         newSeqBtn.setOnAction(event -> {
             Sequentiel sequentiel = new Sequentiel("Nouveau séquenciel n°" + (sequentielList.size() + 1));
             sequentielList.add(sequentiel);
+            renderSequentielList();
             try {
                 openEditWindow(sequentiel);
             } catch (IOException e) {
@@ -50,7 +64,7 @@ public class MainController {
         });
 
         // Affiche la liste des séquenciels
-        // TODO: Afficher la liste des séquenciels
+        renderSequentielList();
     }
 
     private void openEditWindow(Sequentiel sequentiel) throws IOException {
@@ -62,10 +76,81 @@ public class MainController {
         editStage.initModality(Modality.APPLICATION_MODAL);
         editStage.setTitle("Modifier un séquenciel");
         editStage.setScene(new Scene(root));
+        editStage.setMaximized(true);
         editController.setSequentiel(sequentiel);
         editStage.showAndWait();
 
         // Sauvegarder la liste des séquenciels quand la fenêtre de modification est fermée
         persistentModelManager.save(sequentielList);
+        renderSequentielList();
+    }
+
+    private void renderSequentielList() {
+        SeqListGrid.getChildren().clear();
+        for (int i = 0; i < sequentielList.size(); i++) {
+            SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
+        }
+    }
+
+    private VBox renderSequentiel(Sequentiel sequentiel) {
+        VBox sequentielBox = new VBox();
+        HBox header = new HBox();
+        Pane spacer = new Pane();
+        ImageView dupliIcon = new ImageView(String.valueOf(getClass().getResource("/images/dupli-icon.png")));
+        ImageView deleteIcon = new ImageView(String.valueOf(getClass().getResource("/images/delete-icon.png")));
+
+        sequentielBox.setPrefWidth(200);
+        sequentielBox.setPrefHeight(100);
+        sequentielBox.setSpacing(10);
+        sequentielBox.setPadding(new Insets(0, 0, 5, 5));
+        sequentielBox.getStyleClass().add("sequentiel");
+        //Header
+        header.setPrefHeight(20);
+        header.setPrefWidth(200);
+        header.setAlignment(Pos.CENTER_RIGHT);
+
+        // Dupliquer
+        dupliIcon.setFitHeight(25);
+        dupliIcon.setFitWidth(25);
+        Pane dupliPane = new Pane(dupliIcon);
+        dupliPane.setPrefSize(30, 30);
+        dupliPane.setOnMouseClicked(event -> {
+            duplicateSequentiel(sequentiel);
+            event.consume();
+        });
+
+        // Supprimer
+        deleteIcon.setFitHeight(25);
+        deleteIcon.setFitWidth(25);
+        Pane deletePane = new Pane(deleteIcon);
+        deletePane.setPrefSize(30, 30);
+        deletePane.setOnMouseClicked(event -> {
+            System.out.println("Delete clicked");
+            deleteSequentiel(sequentiel);
+            event.consume();
+        });
+
+        header.getChildren().add(dupliPane);
+        header.getChildren().add(deletePane);
+
+        sequentielBox.getChildren().add(header);
+        // Middle
+        spacer.setPrefHeight(50);
+        sequentielBox.getChildren().add(spacer);
+        // Footer
+        sequentielBox.getChildren().add(new Label(sequentiel.getName()));
+        return sequentielBox;
+    }
+
+    private void deleteSequentiel(Sequentiel sequentiel) {
+        // TODO: Ne marche pas car le séquenciel est toujours dans la liste
+        sequentielList.remove(sequentiel);
+        renderSequentielList();
+    }
+
+    private void duplicateSequentiel(Sequentiel sequentiel) {
+        Sequentiel newSequentiel = new Sequentiel(sequentiel.getName() + " (copie)");
+        sequentielList.add(newSequentiel);
+        renderSequentielList();
     }
 }

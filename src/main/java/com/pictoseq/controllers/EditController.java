@@ -43,7 +43,6 @@ public class EditController {
     void initialize() {
         client = HttpClient.newHttpClient();
         searchList = new SearchList(searchListGrid, client, this);
-        sequentiel = new Sequentiel(borderPane);
     }
     @FXML
     void handleTextSearch(KeyEvent event) {
