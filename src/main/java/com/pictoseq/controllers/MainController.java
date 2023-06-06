@@ -1,5 +1,6 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.models.Log;
 import com.pictoseq.models.PersistenceBySerialization;
 import com.pictoseq.models.Sequentiel;
 import com.pictoseq.models.SequentielList;
@@ -47,18 +48,21 @@ public class MainController {
             sequentielList.add(sequentiel);
             renderSequentielList();
             try {
+                Log.println("Edit new sequenciel");
                 openEditWindow(sequentiel);
             } catch (IOException e) {
+                Log.printError("Error while opening edit window");
                 e.printStackTrace();
             }
         });
 
         // Ouvre la fenêtre de modification d'un séquenciel
         SeqListGrid.setOnMouseClicked(event -> {
-            System.out.println("Edit sequenciel");
             try {
-                openEditWindow(sequentielList.get(0));
+                Log.println("Edit sequenciel");
+                openEditWindow(sequentielList.get(SeqListGrid.getChildren().indexOf(event.getTarget())));
             } catch (IOException e) {
+                Log.printError("Error while opening edit window");
                 e.printStackTrace();
             }
         });
@@ -125,7 +129,6 @@ public class MainController {
         Pane deletePane = new Pane(deleteIcon);
         deletePane.setPrefSize(30, 30);
         deletePane.setOnMouseClicked(event -> {
-            System.out.println("Delete clicked");
             deleteSequentiel(sequentiel);
             event.consume();
         });
@@ -145,11 +148,13 @@ public class MainController {
     private void deleteSequentiel(Sequentiel sequentiel) {
         sequentielList.remove(sequentiel);
         renderSequentielList();
+        Log.println("Delete sequentiel");
     }
 
     private void duplicateSequentiel(Sequentiel sequentiel) {
         Sequentiel newSequentiel = new Sequentiel(sequentiel.getName() + " (copie)");
         sequentielList.add(newSequentiel);
         renderSequentielList();
+        Log.println("Duplicate sequentiel");
     }
 }

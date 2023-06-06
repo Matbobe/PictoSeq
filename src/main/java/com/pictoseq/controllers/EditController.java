@@ -1,10 +1,7 @@
 package com.pictoseq.controllers;
 
 import com.pictoseq.app.Application;
-import com.pictoseq.models.Pictograme;
-import com.pictoseq.models.SearchList;
-import com.pictoseq.models.Sequentiel;
-import com.pictoseq.models.SequentielList;
+import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,7 +89,7 @@ public class EditController {
 
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
-        System.out.println(sequentiel);
+        Log.println("Added pictogram to the sequentiel");
     }
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;

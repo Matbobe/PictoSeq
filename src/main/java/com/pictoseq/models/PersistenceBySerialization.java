@@ -12,9 +12,9 @@ public class PersistenceBySerialization implements PersistentModelManager {
         {
             objectOutputStream.writeObject(model);
             objectOutputStream.flush();
-            System.out.println("SAVE OK");
+            Log.println("Save file saved");
         } catch (IOException e) {
-            System.err.println("Saving file error");
+            Log.printError("Saving file error");
             e.printStackTrace();
         }
     }
@@ -26,13 +26,13 @@ public class PersistenceBySerialization implements PersistentModelManager {
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(SAVE_FILE)))
         {
             model = (SequentielList) input.readObject();
-            System.out.println("LOAD OK");
+            Log.println("Save file loaded");
         } catch (IOException e) {
-            System.err.println("Save file does not exist");
-            System.err.println("Creation of empty model");
+            Log.printError("Save file does not exist");
+            Log.printError("Creation of empty model");
             model = new SequentielList();
         } catch (ClassNotFoundException e) {
-            System.err.println("Loading save file error");
+            Log.printError("Loading save file error");
         }
         return model;
     }
