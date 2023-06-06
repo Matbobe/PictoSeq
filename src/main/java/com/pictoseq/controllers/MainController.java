@@ -143,7 +143,6 @@ public class MainController {
     }
 
     private void deleteSequentiel(Sequentiel sequentiel) {
-        // TODO: Ne marche pas car le séquenciel est toujours dans la liste
         sequentielList.remove(sequentiel);
         renderSequentielList();
     }

@@ -43,4 +43,8 @@ public class SequentielList extends ArrayList<Sequentiel> implements Serializabl
         return false;
     }
 
+    public void remove(Sequentiel sequentiel) {
+        sequentielList.remove(sequentiel);
+    }
+
 }
