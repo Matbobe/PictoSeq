@@ -24,6 +24,21 @@ public class Sequentiel implements Serializable {
         this.name = name;
     }
 
+    // Pour faire une copie d'un séquentiel
+    public Sequentiel(Sequentiel sequentiel) {
+           this.pictogrameList = new LinkedList<>();
+            horizontal = true;
+            this.pane = new HBox();
+            this.name = sequentiel.getName() + " (copie)";
+            for (Pictograme pictograme : sequentiel.getPictogrameList()) {
+                this.addPictograme(new Pictograme(pictograme));
+            }
+    }
+
+    private Pictograme[] getPictogrameList() {
+        return pictogrameList.toArray(new Pictograme[0]);
+    }
+
     public void addPictograme(Pictograme pictograme) {
         pictogrameList.add(pictograme);
         pane.getChildren().add(pictograme.getImageView());

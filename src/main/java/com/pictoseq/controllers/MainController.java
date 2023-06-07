@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,7 +61,17 @@ public class MainController {
         SeqListGrid.setOnMouseClicked(event -> {
             try {
                 Log.println("Edit sequenciel");
-                openEditWindow(sequentielList.get(SeqListGrid.getChildren().indexOf(event.getTarget())));
+                Node target = (Node) event.getTarget();
+                while (target != null && !SeqListGrid.getChildren().contains(target)) {
+                    target = target.getParent();
+                }
+
+                if (target != null) {
+                    int index = SeqListGrid.getChildren().indexOf(target);
+                    if (index >= 0 && index < sequentielList.size()) {
+                        openEditWindow(sequentielList.get(index));
+                    }
+                }
             } catch (IOException e) {
                 Log.printError("Error while opening edit window");
                 e.printStackTrace();
@@ -94,6 +105,7 @@ public class MainController {
         for (int i = 0; i < sequentielList.size(); i++) {
             SeqListGrid.getChildren().add(renderSequentiel(sequentielList.get(i)));
         }
+
     }
 
     private VBox renderSequentiel(Sequentiel sequentiel) {
@@ -163,13 +175,16 @@ public class MainController {
 
     private void deleteSequentiel(Sequentiel sequentiel) {
         sequentielList.remove(sequentiel);
+        persistentModelManager.save(sequentielList);
         renderSequentielList();
         Log.println("Delete sequentiel");
     }
 
     private void duplicateSequentiel(Sequentiel sequentiel) {
-        Sequentiel newSequentiel = new Sequentiel(sequentiel.getName() + " (copie)");
+        // duplicate sequentiel
+        Sequentiel newSequentiel = new Sequentiel(sequentiel);
         sequentielList.add(newSequentiel);
+        persistentModelManager.save(sequentielList);
         renderSequentielList();
         Log.println("Duplicate sequentiel");
     }
