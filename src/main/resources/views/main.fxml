@@ -24,8 +24,8 @@
                        <ImageView fitHeight="88.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Date-removebg-preview.png" />
-                           </image></ImageView>
-                        </Text>
+                           </image>
+                       </ImageView>
                      </children>
                      <opaqueInsets>
                         <Insets />
