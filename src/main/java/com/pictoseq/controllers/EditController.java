@@ -15,15 +15,13 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class EditController {
@@ -37,6 +35,8 @@ public class EditController {
     private TilePane searchListGrid;
     @FXML
     private ScrollPane scrollPaneSequentiel;
+    private VBox vboxSequentiel;
+    private Pane boxSequentiel;
 
     private Sequentiel sequentiel;
 
@@ -64,10 +64,8 @@ public class EditController {
     void initialize() {
         client = HttpClient.newHttpClient();
         searchList = new SearchList(searchListGrid, client, this);
-
         idNum.setOnAction(event -> {
-            Direction dir = Direction.getDirection(idNum.getValue().toString());
-            sequentiel.changeDirectionOfNumbers(dir);
+            changeDirectionOfNumbers();
         });
     }
     @FXML
@@ -116,13 +114,36 @@ public class EditController {
         searchList.renderNext();
     }
 
+    private void loadPictogramme(Pictograme pictograme) {
+        Log.println("Added pictogram to the sequentiel");
+        Pane newPane;
+        String dir = idNum.getValue().toString();
+        String index = ""+sequentiel.size();
+        if (dir == "En haut") {
+            newPane = new VBox();
+            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+        } else if (dir == "En bas") {
+            newPane = new VBox();
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+        } else if (dir == "À gauche") {
+            newPane = new HBox();
+            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+        } else {
+            newPane = new HBox();
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+        }
+        boxSequentiel.getChildren().add(newPane);
+    }
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
-        Log.println("Added pictogram to the sequentiel");
+        loadPictogramme(pictograme);
     }
     public void setSequentiel(Sequentiel sequentiel) {
+        sequentiel.render(client);
         this.sequentiel = sequentiel;
-        scrollPaneSequentiel.setContent(sequentiel.getVboxSequentiel());
+        renderBoxSequentiel();
+        renderVBoxSequentiel();
+        scrollPaneSequentiel.setContent(vboxSequentiel);
         scrollPaneSequentiel.setPannable(true);
     }
 
@@ -154,6 +175,7 @@ public class EditController {
         }
     }
 
+<<<<<<< Updated upstream
     @FXML
     void changeNumPos(MouseEvent event) {
         ChoiceBox choiceBox = (ChoiceBox) event.getSource();
@@ -170,4 +192,52 @@ public class EditController {
             sequentiel.changeDirectionOfNumbers(Direction.LEFT);
         }
     }
+=======
+    private void renderBoxSequentiel() {
+        if (sequentiel.getHorizontal()) {
+            boxSequentiel = new HBox();
+        } else {
+            boxSequentiel = new VBox();
+        }
+        for (int i = 0; i < sequentiel.size(); i++){
+            loadPictogramme(sequentiel.getPictogramme(i));
+        }
+    }
+    private void renderVBoxSequentiel() {
+        this.vboxSequentiel = new VBox();
+        if (sequentiel.getDirectionTitle() == "En haut") {
+            Label title = new Label(sequentiel.getName());
+            vboxSequentiel.getChildren().add(title);
+            vboxSequentiel.getChildren().add(boxSequentiel);
+        }else{
+            Label title = new Label(sequentiel.getName());
+            vboxSequentiel.getChildren().add(boxSequentiel);
+            vboxSequentiel.getChildren().add(title);
+        }
+    }
+
+    private void changeDirectionOfNumbers(){
+        String direction = idNum.getValue().toString();
+        sequentiel.changeDirectionOfNumbers(direction);
+        switch (direction){
+            case "Haut":
+                sequentiel.changeDirectionOfNumbers("En haut");
+                break;
+            case "Bas":
+                sequentiel.changeDirectionOfNumbers("En bas");
+                break;
+            case "Gauche":
+                sequentiel.changeDirectionOfNumbers("À gauche");
+                break;
+            case "Droite":
+                sequentiel.changeDirectionOfNumbers("À droite");
+                break;
+        }
+    }
+
+    private void clearBoxSequentiel() {
+        boxSequentiel.getChildren().clear();
+    }
+
+>>>>>>> Stashed changes
 }

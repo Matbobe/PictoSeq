@@ -20,11 +20,9 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Sequentiel implements Serializable {
     private final List<Pictograme> pictogrameList;
-    private transient VBox vboxSequentiel;
-    private transient Pane boxSequentiel;
     private transient Label labelTitle;
-    private Direction directionNumber;
-    private Direction directionTitle;
+    private String directionNumber;
+    private String directionTitle;
     private boolean horizontal;
     private String name;
     private Text textPictogramme;
@@ -32,14 +30,10 @@ public class Sequentiel implements Serializable {
 
     public Sequentiel(String name) {
         this.pictogrameList = new LinkedList<>();
-        this.directionNumber = Direction.LEFT;
-        this.directionTitle = Direction.UP;
+        this.directionNumber = "En bas";
+        this.directionTitle = "En haut";
         horizontal = true;
         this.name = name;
-        this.vboxSequentiel = new VBox();
-        this.boxSequentiel = new HBox();
-        vboxSequentiel.getChildren().add(new Label(name));
-        vboxSequentiel.getChildren().add(boxSequentiel);
     }
 
     // Pour faire une copie d'un séquentiel
@@ -52,36 +46,9 @@ public class Sequentiel implements Serializable {
         for (Pictograme pictograme : sequentiel.getPictogrameList()) {
             this.addPictograme(new Pictograme(pictograme));
         }
-        this.vboxSequentiel = new VBox();
-        this.boxSequentiel = new HBox();
-        vboxSequentiel.getChildren().add(new Label(name));
-        vboxSequentiel.getChildren().add(boxSequentiel);
     }
-    private Pane getBoxSequentiel() {
-        return boxSequentiel;
-    }
-
-    private void voidChangeDirectionOfBox(Direction direction) {
-        if (direction == Direction.UP || direction == Direction.DOWN) {
-            horizontal = false;
-            VBox vbox = new VBox();
-            vbox.getChildren().addAll(boxSequentiel.getChildren());
-            boxSequentiel = vbox;
-        } else {
-            horizontal = true;
-            HBox hbox = new HBox();
-            hbox.getChildren().addAll(boxSequentiel.getChildren());
-            boxSequentiel = hbox;
-        }
-    }
-
-    public void changeDirectionOfNumbers(Direction direction) {
+    public void changeDirectionOfNumbers(String direction) {
         directionNumber = direction;
-        List<Pictograme> temp = new LinkedList<>(this.pictogrameList);
-        clear();
-        for (Pictograme pictograme : temp) {
-            addPictograme(pictograme);
-        }
     }
     public Sequentiel(LinkedList<Pictograme> pictogrameList) {
         this.pictogrameList = pictogrameList;
@@ -91,39 +58,19 @@ public class Sequentiel implements Serializable {
         return pictogrameList.toArray(new Pictograme[0]);
     }
 
-    private Pane getBoxIndex(int index) {
-        return (Pane) boxSequentiel.getChildren().get(index);
-    }
     public void addPictograme(Pictograme pictograme) {
         pictogrameList.add(pictograme);
-        Pane newPane;
-        String index = ""+pictogrameList.size();
-        if (directionNumber == Direction.UP){
-            newPane = new VBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
-        } else if (directionNumber == Direction.DOWN) {
-            newPane = new VBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
-        } else if (directionNumber == Direction.LEFT) {
-            newPane = new HBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
-        } else {
-            newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
-        }
-        boxSequentiel.getChildren().add(newPane);
     }
 
     public void clear() {
         pictogrameList.clear();
-        getBoxSequentiel().getChildren().clear();
     }
 
-    public Direction getDirectionNumber() {
+    public String getDirectionNumber() {
         return directionNumber;
     }
 
-    public Direction getDirectionTitle() {
+    public String getDirectionTitle() {
         return directionTitle;
     }
 
@@ -131,6 +78,11 @@ public class Sequentiel implements Serializable {
         return pictogrameList.size();
     }
 
+    public void render(HttpClient client) {
+        for (Pictograme pictograme : pictogrameList){
+            pictograme.render(client);
+        }
+    }
     @Override
     public String toString() {
         String res = "";
@@ -140,9 +92,6 @@ public class Sequentiel implements Serializable {
         return res;
     }
 
-    public VBox getVboxSequentiel() {
-        return vboxSequentiel;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -164,39 +113,8 @@ public class Sequentiel implements Serializable {
         }
         return imageViews;
     }
-
-    public void setDirection(ChoiceBox idDirection){
-        if(idDirection.equals("Horizontal")){
-            horizontal = true;
-        }
-        else{horizontal = false;}
+    public Pictograme getPictogramme(int i) {
+        return pictogrameList.get(i);
     }
 
-    public void setHorizontal(boolean horizontal) {
-        Rotate rotate = new Rotate();
-        rotate.setAngle(rotate.getAngle() + 90);
-    }
-
-    public void setColor(Color color){
-        ColorPicker idColor = EditController.idColor;
-        color = idColor.getValue();
-    }
-
-    public void setText(Text text){
-        if(text.equals("Désactiver")){
-            textPictogramme.setDisable(true);
-        } else if (text.equals("En haut")) {
-            textPictogramme.setY(this.size() - (this.size()/10));
-        }
-        else{textPictogramme.setY(this.size()/10);}
-    }
-
-    public void setNum(Text num){
-        if(num.equals("Désactiver")){
-            textNum.setDisable(true);
-        } else if (num.equals("En haut")) {
-            textNum.setY(this.size() - (this.size()/10));
-        }
-        else{textNum.setY(this.size()/10);}
-    }
 }
