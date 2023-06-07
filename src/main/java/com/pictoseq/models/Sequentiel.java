@@ -1,5 +1,8 @@
 package com.pictoseq.models;
 
+import com.pictoseq.controllers.EditController;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Pos;
@@ -7,6 +10,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 
 import java.io.Serializable;
 import java.net.http.HttpClient;
@@ -19,6 +25,8 @@ public class Sequentiel implements Serializable {
     private transient ScrollPane scrollPane;
     private boolean horizontal;
     private String name;
+    private Text textPictogramme;
+    private Text textNum;
 
     public Sequentiel(String name) {
         this.pictogrameList = new LinkedList<>();
@@ -106,5 +114,40 @@ public class Sequentiel implements Serializable {
             imageViews[i] = pictogrameList.get(i).getImageViewCopy();
         }
         return imageViews;
+    }
+
+    public void setDirection(ChoiceBox idDirection){
+        if(idDirection.equals("Horizontal")){
+            horizontal = true;
+        }
+        else{horizontal = false;}
+    }
+
+    public void setHorizontal(boolean horizontal) {
+        Rotate rotate = new Rotate();
+        rotate.setAngle(rotate.getAngle() + 90);
+    }
+
+    public void setColor(Color color){
+        ColorPicker idColor = EditController.idColor;
+        color = idColor.getValue();
+    }
+
+    public void setText(Text text){
+        if(text.equals("Désactiver")){
+            textPictogramme.setDisable(true);
+        } else if (text.equals("En haut")) {
+            textPictogramme.setY(this.size() - (this.size()/10));
+        }
+        else{textPictogramme.setY(this.size()/10);}
+    }
+
+    public void setNum(Text num){
+        if(num.equals("Désactiver")){
+            textNum.setDisable(true);
+        } else if (num.equals("En haut")) {
+            textNum.setY(this.size() - (this.size()/10));
+        }
+        else{textNum.setY(this.size()/10);}
     }
 }
