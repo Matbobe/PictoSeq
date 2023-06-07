@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,12 +27,12 @@ public class SearchList {
     private final static int MAX_SIZE = 20;
     private List<Pictograme> pictogrameList;
     @FXML
-    private GridPane searchListGrid;
+    private TilePane searchListGrid;
     private final HttpClient client;
 
     private final EditController editController;
     private int nbRendered;
-    public SearchList(GridPane searchListGrid, HttpClient client, EditController editController){
+    public SearchList(TilePane searchListGrid, HttpClient client, EditController editController){
         this.searchListGrid = searchListGrid;
         this.pictogrameList = new ArrayList<>(MAX_SIZE);
         this.client = client;
@@ -75,7 +76,9 @@ public class SearchList {
     public void renderNext() {
         int imgRendered = this.nbRendered;
         if (this.nbRendered >= this.pictogrameList.size()) return;
-        for (int i = imgRendered; i < imgRendered + 20; i++) {
+        int imgToRender = this.nbRendered + 4;
+        if (imgToRender > this.pictogrameList.size()) imgToRender = this.pictogrameList.size();
+        for (int i = imgRendered; i < imgToRender; i++) {
             if (i >= this.pictogrameList.size()) return;
             Pictograme pictograme = pictogrameList.get(i);
             addPictoToGrid(pictograme, i);
@@ -100,8 +103,7 @@ public class SearchList {
                         plus.setLayoutY(40);
                         plus.setVisible(false);
                         pane.getChildren().addAll(pictograme.getImageView(),plus);
-                        searchListGrid.add(pane, index % 2, index / 2);
-                        int taille = searchListGrid.getChildren().size();
+                        searchListGrid.getChildren().add(pane);
                         pane.setOnMouseClicked(e -> {
                             editController.addPictogramme(new Pictograme(pictograme));
                         });
