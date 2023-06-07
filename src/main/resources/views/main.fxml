@@ -21,13 +21,10 @@
                <children>
                   <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="100.0" prefWidth="10000.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PictoSeq">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="16.0" />
-                           </HBox.margin>
+                       <ImageView fitHeight="88.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Date-removebg-preview.png" />
+                           </image></ImageView>
                         </Text>
                      </children>
                      <opaqueInsets>
