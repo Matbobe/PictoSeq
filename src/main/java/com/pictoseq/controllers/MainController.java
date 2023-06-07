@@ -48,7 +48,7 @@ public class MainController {
         sequentielList = persistentModelManager.load();
 
         //mise en place du logo
-        idImageLogo.setImage(new ImageView(String.valueOf(getClass().getResource("/images/Logo_Picto_Seq-removebg-preview.png"))).getImage());
+        idImageLogo.setImage(new ImageView(String.valueOf(getClass().getResource("/images/Date-removebg-preview.png"))).getImage());
 
         // Ouvre la fenêtre de création d'un nouveau séquenciel
         newSeqBtn.setOnAction(event -> {
