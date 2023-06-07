@@ -1,24 +1,21 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.app.Application;
-import com.pictoseq.models.*;
-import javafx.application.Platform;
+import com.pictoseq.models.Log;
+import com.pictoseq.models.Pictograme;
+import com.pictoseq.models.SearchList;
+import com.pictoseq.models.Sequentiel;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.print.*;
-import javafx.scene.Node;
-import javafx.scene.input.*;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -28,7 +25,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -44,6 +40,7 @@ public class EditController {
     @FXML
     private ScrollPane scrollPaneSequentiel;
 
+    @FXML
     private Pane contentPane;
     private VBox vboxSequentiel;
     private Pane boxSequentiel;
@@ -73,6 +70,7 @@ public class EditController {
     private double scrollPositionY;
     private Scale scaleTransform = new Scale(1.0, 1.0);
     private Translate translateTransform = new Translate(0.0, 0.0);
+
     @FXML
     void onRetourClick(ActionEvent event) {
         Stage editStage = (Stage) borderPane.getScene().getWindow();
@@ -83,11 +81,8 @@ public class EditController {
     void initialize() {
         client = HttpClient.newHttpClient();
         searchList = new SearchList(searchListGrid, client, this);
-        idNum.setOnAction(event -> {
-            changeDirectionOfNumbers();
-        });
 
-
+        // Permet le zoom et le drag de la vue du séquenciel
         contentPane = new Pane();
         scrollPaneSequentiel.setContent(contentPane);
 
@@ -95,6 +90,7 @@ public class EditController {
 
         // Gestionnaire d'événements pour le drag
         contentPane.setOnMousePressed(event -> {
+            System.out.println("Pressed");
             if (event.getButton() == MouseButton.PRIMARY) {
                 dragStartX = event.getX();
                 dragStartY = event.getY();
@@ -104,6 +100,7 @@ public class EditController {
         });
 
         contentPane.setOnMouseDragged(event -> {
+            System.out.println("Dragged");
             if (event.getButton() == MouseButton.PRIMARY) {
                 double offsetX = event.getX() - dragStartX;
                 double offsetY = event.getY() - dragStartY;
@@ -113,10 +110,27 @@ public class EditController {
         });
 
         // Gestionnaire d'événements pour le zoom
-        scrollPaneSequentiel.setOnScroll(event -> {
+        contentPane.setOnScroll(event -> {
+            System.out.println("Scrolled");
             double zoomFactor = event.getDeltaY() > 0 ? 1.1 : 0.9;
             scaleTransform.setX(scaleTransform.getX() * zoomFactor);
             scaleTransform.setY(scaleTransform.getY() * zoomFactor);
+        });
+
+        idNum.setOnAction(event -> {
+            changeDirectionOfNumbers();
+        });
+        idDirection.setOnAction(event -> {
+            sequentiel.setHorizontal(!sequentiel.getHorizontal());
+        });
+        idColor.setOnAction(event -> {
+            sequentiel.setColor(idColor.getValue());
+        });
+        idText.setOnAction(event -> {
+            sequentiel.setDirectionPictogrameTitle(idText.getValue());
+        });
+        idTitle.setOnAction(event -> {
+            sequentiel.setDirectionSequentielTitle(idTitle.getValue());
         });
     }
     @FXML
@@ -165,60 +179,70 @@ public class EditController {
         searchList.renderNext();
     }
 
-    private void loadPictogramme(Pictograme pictograme, String index) {
+    private void loadPictogramme(Pictograme pictograme) {
         Log.println("Added pictogram to the sequentiel");
         Pane newPane;
         String dir = idNum.getValue().toString();
         if (dir.equals("En haut")) {
             newPane = new VBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
         } else if (dir.equals("En bas")) {
             newPane = new VBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
         } else if (dir.equals("À gauche")) {
             newPane = new HBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
         } else {
             newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
         }
+        newPane.setOnContextMenuRequested(event -> {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem delete = new MenuItem("Supprimer");
+            delete.setOnAction(event1 -> {
+                sequentiel.removePictograme(pictograme);
+                boxSequentiel.getChildren().remove(newPane);
+                updateIndexPictogrames();
+            });
+            contextMenu.getItems().add(delete);
+            contextMenu.show(newPane, event.getScreenX(), event.getScreenY());
+        });
         boxSequentiel.getChildren().add(newPane);
+    }
+
+    private void updateIndexPictogrames(){
+        Pictograme[] pictogrames = sequentiel.getPictogrameList();
+        for (int i = 0; i < pictogrames.length; i++) {
+            Pictograme pictograme = pictogrames[i];
+            String index = Integer.toString(i+1);
+            String direction = idNum.getValue().toString();
+            Pane pane = (Pane)boxSequentiel.getChildren().get(i);
+            if (direction.equals("En haut") || direction.equals("À gauche")) {
+                ((Label)pane.getChildren().get(0)).setText(index);
+            } else {
+                ((Label)pane.getChildren().get(1)).setText(index);
+            }
+
+        }
     }
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
-        loadPictogramme(pictograme, Integer.toString(sequentiel.size()));
+        loadPictogramme(pictograme);
     }
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
         this.sequentiel = sequentiel;
-        renderBoxSequentiel();
-        renderVBoxSequentiel();
-            contentPane.getChildren().setAll(vboxSequentiel);
-        //scrollPaneSequentiel.setContent(vboxSequentiel);
-        // scrollPaneSequentiel.setPannable(true);
+
         idNum.setValue(sequentiel.getDirectionPictogrameNumber());
         idText.setValue(sequentiel.getDirectionPictogrameTitle());
         idTitle.setValue(sequentiel.getDirectionSequentielTitle());
         idColor.setValue(Color.valueOf(sequentiel.getColor()));
         idDirection.setValue(sequentiel.getDirectionBox());
+        renderBoxSequentiel();
+        renderVBoxSequentiel();
+        contentPane.getChildren().setAll(vboxSequentiel);
         addNameViewSequenciel();
 
-    }
-
-    public void setColor(ColorPicker idColor){
-        this.idColor = idColor;
-    }
-
-    public void setDirection(ChoiceBox idDirection){
-        this.idDirection = idDirection;
-    }
-
-    public void setNum(ChoiceBox idNum){
-        this.idNum = idNum;
-    }
-
-    public void setText(ChoiceBox idText){
-        this.idText = idText;
     }
     @FXML
     public void exportSeqToPDF(ActionEvent actionEvent) {
@@ -251,9 +275,9 @@ public class EditController {
             boxSequentiel = new VBox();
         }
         for (int i = 0; i < sequentiel.size(); i++){
-            loadPictogramme(sequentiel.getPictogramme(i), ""+(i+1));
+            loadPictogramme(sequentiel.getPictogramme(i));
         }
-
+        updateIndexPictogrames();
     }
     private void renderVBoxSequentiel() {
         this.vboxSequentiel = new VBox();

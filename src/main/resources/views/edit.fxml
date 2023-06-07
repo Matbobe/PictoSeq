@@ -281,10 +281,10 @@
    </top>
    <center>
       <ScrollPane fx:id="scrollPaneSequentiel">
-      <content>
+         <content>
          <Pane fx:id="contentPane">
-      </Pane>
-   </content>
+         </Pane>
+         </content>
       </ScrollPane>
    </center>
 </BorderPane>
