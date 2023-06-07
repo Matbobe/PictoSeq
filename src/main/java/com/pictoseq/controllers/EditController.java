@@ -13,6 +13,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -149,7 +150,7 @@ public class EditController {
     }
 
     @FXML
-    void changeNumPos(ContextMenuEvent event) {
+    void changeNumPos(MouseEvent event) {
         ChoiceBox choiceBox = (ChoiceBox) event.getSource();
         String value = (String) choiceBox.getValue();
         if (value.equals("En bas")){
