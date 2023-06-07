@@ -46,7 +46,9 @@ public class Pictograme implements Serializable {
         this._id = pictograme._id;
         this.keyword = pictograme.keyword;
         this.categories = new LinkedList<>(pictograme.categories);
-        this.imageView = pictograme.getImageViewCopy();
+        if (pictograme.imageView == null)
+            this.imageView = null;
+        else this.imageView = pictograme.getImageViewCopy();
     }
 
     public String get_id() {

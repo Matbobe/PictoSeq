@@ -5,12 +5,15 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -28,8 +31,9 @@ public class EditController {
     private TextField searchBar;
     @FXML
     private ScrollPane scrollPaneSequentiel;
+
     @FXML
-    private GridPane searchListGrid;
+    private TilePane searchListGrid;
 
     @FXML
     private Text nameSequentiel;
@@ -38,6 +42,18 @@ public class EditController {
     private Button renameSequentiel;
 
     private Sequentiel sequentiel;
+
+    @FXML
+    public static ColorPicker idColor;
+
+    @FXML
+    private ChoiceBox<?> idDirection;
+
+    @FXML
+    private ChoiceBox<?> idNum;
+
+    @FXML
+    private ChoiceBox<?> idText;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -83,16 +99,16 @@ public class EditController {
     @FXML
     void searchGridHandleScrollFiniched(ScrollEvent event) throws IOException, InterruptedException {
         if (event.getDeltaY() > 0) return; // On ne s'intéresse qu'au scroll vers le bas
-        if (searchListGrid.getRowCount() == 0) return; // Si la grille est vide, on ne fait rien
+        if (searchListGrid.getChildren().isEmpty()) return; // Si le TilePane est vide, on ne fait rien
 
-        int lastRowIndex = searchListGrid.getRowCount() - 1;
-        int lastColumnIndex = searchListGrid.getColumnCount() - 1;
-        int lastCellIndex = lastRowIndex * searchListGrid.getColumnCount() + lastColumnIndex;
-        javafx.scene.Node lastCell = searchListGrid.getChildren().get(lastCellIndex);
-        double lastCellBottom = lastCell.getBoundsInParent().getMaxY();
-        double searchListGridBottom = searchListGrid.getBoundsInParent().getMaxY();
-        if (lastCellBottom < searchListGridBottom) return; // Si la dernière cellule n'est pas en bas de la grille, on ne fait rien
+        javafx.scene.Node lastChild = searchListGrid.getChildren().get(searchListGrid.getChildren().size() - 1);
+        double lastChildBottom = lastChild.getBoundsInParent().getMaxY();
+        double searchListTilePaneBottom = searchListGrid.getBoundsInParent().getMaxY();
 
+        // Si le dernier enfant n'est pas en bas du TilePane, on ne fait rien
+        if (lastChildBottom < searchListTilePaneBottom) return;
+
+        // Si on arrive ici, c'est qu'on a scrollé jusqu'en bas
         searchList.renderNext();
     }
     @FXML
@@ -138,5 +154,21 @@ public class EditController {
         nameSequentiel.setText(sequentiel.getName());
 
 
+    }
+
+    public void setColor(ColorPicker idColor){
+        this.idColor = idColor;
+    }
+
+    public void setDirection(ChoiceBox idDirection){
+        this.idDirection = idDirection;
+    }
+
+    public void setNum(ChoiceBox idNum){
+        this.idNum = idNum;
+    }
+
+    public void setText(ChoiceBox idText){
+        this.idText = idText;
     }
 }
