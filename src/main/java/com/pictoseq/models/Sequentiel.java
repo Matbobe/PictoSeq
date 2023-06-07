@@ -75,7 +75,7 @@ public class Sequentiel implements Serializable {
         }
     }
 
-    private void changeDirectionOfNumbers(Direction direction) {
+    public void changeDirectionOfNumbers(Direction direction) {
         directionNumber = direction;
         List<Pictograme> temp = new LinkedList<>(this.pictogrameList);
         clear();

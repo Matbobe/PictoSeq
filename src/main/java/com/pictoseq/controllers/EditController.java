@@ -7,10 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
 import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextField;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
@@ -177,6 +181,23 @@ public class EditController {
 
             job.printPage(scrollPaneSequentiel);
             job.endJob();
+        }
+    }
+
+    @FXML
+    void changeNumPos(ContextMenuEvent event) {
+        ChoiceBox choiceBox = (ChoiceBox) event.getSource();
+        String value = (String) choiceBox.getValue();
+        if (value.equals("En bas")){
+            sequentiel.changeDirectionOfNumbers(Direction.DOWN);
+        }
+        else if (value.equals("En haut")){
+            sequentiel.changeDirectionOfNumbers(Direction.UP);
+        }
+        else if (value.equals("A droite")){
+            sequentiel.changeDirectionOfNumbers(Direction.RIGHT);
+        }else{
+            sequentiel.changeDirectionOfNumbers(Direction.LEFT);
         }
     }
 }

@@ -115,7 +115,7 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font></Text>
-                              <ChoiceBox prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En bas">
+                              <ChoiceBox onContextMenuRequested="#changeNumPos" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En bas">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="En bas" />
