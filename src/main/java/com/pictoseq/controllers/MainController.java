@@ -62,27 +62,6 @@ public class MainController {
             }
         });
 
-        // Ouvre la fenêtre de modification d'un séquenciel
-        SeqListGrid.setOnMouseClicked(event -> {
-            try {
-                Log.println("Edit sequenciel");
-                Node target = (Node) event.getTarget();
-                while (target != null && !SeqListGrid.getChildren().contains(target)) {
-                    target = target.getParent();
-                }
-
-                if (target != null) {
-                    int index = SeqListGrid.getChildren().indexOf(target);
-                    if (index >= 0 && index < sequentielList.size()) {
-                        openEditWindow(sequentielList.get(index));
-                    }
-                }
-            } catch (IOException e) {
-                Log.printError("Error while opening edit window");
-                e.printStackTrace();
-            }
-        });
-
         // Affiche la liste des séquenciels
         renderSequentielList();
     }
@@ -175,6 +154,16 @@ public class MainController {
         sequentielBox.getChildren().add(spacer);
         // Footer
         sequentielBox.getChildren().add(new Label(sequentiel.getName()));
+        sequentielBox.setOnMouseClicked(event -> {
+            try {
+                Log.println("Edit sequenciel");
+                openEditWindow(sequentiel);
+            } catch (IOException e) {
+                Log.printError("Error while opening edit window");
+                e.printStackTrace();
+            }
+        });
+
         return sequentielBox;
     }
 
