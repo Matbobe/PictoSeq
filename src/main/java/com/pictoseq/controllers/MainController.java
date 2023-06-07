@@ -99,25 +99,25 @@ public class MainController {
     private VBox renderSequentiel(Sequentiel sequentiel) {
         VBox sequentielBox = new VBox();
         HBox header = new HBox();
-        Pane spacer = new Pane();
+        HBox spacer = new HBox();
         ImageView dupliIcon = new ImageView(String.valueOf(getClass().getResource("/images/dupli-icon.png")));
         ImageView deleteIcon = new ImageView(String.valueOf(getClass().getResource("/images/delete-icon.png")));
 
         sequentielBox.setPrefWidth(200);
         sequentielBox.setPrefHeight(100);
         sequentielBox.setSpacing(10);
-        sequentielBox.setPadding(new Insets(0, 0, 5, 5));
+        sequentielBox.setPadding(new Insets(3, 3, 5, 5));
         sequentielBox.getStyleClass().add("sequentiel");
         //Header
-        header.setPrefHeight(20);
+        header.setPrefHeight(30);
         header.setPrefWidth(200);
-        header.setAlignment(Pos.CENTER_RIGHT);
+        header.setAlignment(Pos.BOTTOM_RIGHT);
 
         // Dupliquer
         dupliIcon.setFitHeight(25);
         dupliIcon.setFitWidth(25);
         Pane dupliPane = new Pane(dupliIcon);
-        dupliPane.setPrefSize(30, 30);
+        dupliPane.setPrefSize(25, 25);
         dupliPane.setOnMouseClicked(event -> {
             duplicateSequentiel(sequentiel);
             event.consume();
@@ -127,7 +127,7 @@ public class MainController {
         deleteIcon.setFitHeight(25);
         deleteIcon.setFitWidth(25);
         Pane deletePane = new Pane(deleteIcon);
-        deletePane.setPrefSize(30, 30);
+        deletePane.setPrefSize(25, 25);
         deletePane.setOnMouseClicked(event -> {
             deleteSequentiel(sequentiel);
             event.consume();
@@ -139,6 +139,22 @@ public class MainController {
         sequentielBox.getChildren().add(header);
         // Middle
         spacer.setPrefHeight(50);
+        spacer.setPrefWidth(200);
+        spacer.setAlignment(Pos.CENTER);
+        spacer.setSpacing(5);
+        spacer.setPadding(new Insets(0, 5, 0, 5));
+        int size = sequentiel.size();
+        if (size != 0) {
+            if (size > 3) size = 3;
+            ImageView[] images = sequentiel.getTreePictogrameImageView(size);
+            for (int i = 0; i < size; i++) {
+                images[i].setFitHeight(40);
+                images[i].setFitWidth(40);
+                spacer.getChildren().add(images[i]);
+            }
+        } else {
+            spacer.getChildren().add(new Label("Aucun pictogramme"));
+        }
         sequentielBox.getChildren().add(spacer);
         // Footer
         sequentielBox.getChildren().add(new Label(sequentiel.getName()));

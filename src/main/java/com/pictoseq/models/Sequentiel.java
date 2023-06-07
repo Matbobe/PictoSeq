@@ -1,10 +1,12 @@
 package com.pictoseq.models;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.io.Serializable;
+import java.net.http.HttpClient;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,14 +17,6 @@ public class Sequentiel implements Serializable {
     private boolean horizontal;
     private String name;
 
-    public Sequentiel(BorderPane borderPane, String name) {
-        this.pictogrameList = new LinkedList<>();
-        horizontal = true;
-        this.pane = new HBox();
-        borderPane.setCenter(this.pane);
-        this.name = name;
-    }
-
     public Sequentiel(String name) {
         this.pictogrameList = new LinkedList<>();
         horizontal = true;
@@ -30,25 +24,9 @@ public class Sequentiel implements Serializable {
         this.name = name;
     }
 
-    public Sequentiel(LinkedList<Pictograme> pictogrameList) {
-        this.pictogrameList = pictogrameList;
-    }
-
-    public List<Pictograme> getPictogrameList() {
-        return pictogrameList;
-    }
-
     public void addPictograme(Pictograme pictograme) {
         pictogrameList.add(pictograme);
         pane.getChildren().add(pictograme.getImageView());
-    }
-
-    public void removePictograme(Pictograme pictograme) {
-        pictogrameList.remove(pictograme);
-    }
-
-    public void removePictograme(int index) {
-        pictogrameList.remove(index);
     }
 
     public void clear() {
@@ -57,10 +35,6 @@ public class Sequentiel implements Serializable {
 
     public int size() {
         return pictogrameList.size();
-    }
-
-    public Pictograme getPictograme(int index) {
-        return pictogrameList.get(index);
     }
 
     @Override
@@ -72,15 +46,22 @@ public class Sequentiel implements Serializable {
         return res;
     }
 
-    public Pane getPane() {
-        return pane;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public ImageView[] getTreePictogrameImageView(int nb) {
+        HttpClient client = HttpClient.newHttpClient();
+
+        ImageView[] imageViews = new ImageView[pictogrameList.size()];
+        for (int i = 0; i < nb; i++) {
+            pictogrameList.get(i).render(client);
+            imageViews[i] = pictogrameList.get(i).getImageViewCopy();
+        }
+        return imageViews;
     }
 }
