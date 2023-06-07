@@ -5,6 +5,8 @@ import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -36,6 +38,18 @@ public class EditController {
     private Button renameSequentiel;
 
     private Sequentiel sequentiel;
+
+    @FXML
+    public static ColorPicker idColor;
+
+    @FXML
+    private ChoiceBox<?> idDirection;
+
+    @FXML
+    private ChoiceBox<?> idNum;
+
+    @FXML
+    private ChoiceBox<?> idText;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -132,5 +146,21 @@ public class EditController {
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;
         borderPane.setCenter(sequentiel.getScrollPane());
+    }
+
+    public void setColor(ColorPicker idColor){
+        this.idColor = idColor;
+    }
+
+    public void setDirection(ChoiceBox idDirection){
+        this.idDirection = idDirection;
+    }
+
+    public void setNum(ChoiceBox idNum){
+        this.idNum = idNum;
+    }
+
+    public void setText(ChoiceBox idText){
+        this.idText = idText;
     }
 }
