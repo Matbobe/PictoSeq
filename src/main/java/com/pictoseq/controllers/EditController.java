@@ -11,7 +11,9 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -26,8 +28,14 @@ public class EditController {
     private TextField searchBar;
     @FXML
     private GridPane searchListGrid;
+
     @FXML
-    private Pane sequentielPane;
+    private Text nameSequentiel;
+
+    @FXML
+    private Button renameSequentiel;
+//    @FXML
+//   private Pane sequentielPane;
     private Sequentiel sequentiel;
 
     @FXML
@@ -85,6 +93,37 @@ public class EditController {
         if (lastCellBottom < searchListGridBottom) return; // Si la dernière cellule n'est pas en bas de la grille, on ne fait rien
 
         searchList.renderNext();
+    }
+    @FXML
+    void onRenameButtonClick(ActionEvent event) {
+        nameSequentiel.setVisible(false);
+        renameSequentiel.setVisible(true);
+        TextField textField = new TextField(nameSequentiel.getText());
+        textField.setPrefWidth(nameSequentiel.getLayoutBounds().getWidth());
+        textField.setPrefHeight(nameSequentiel.getLayoutBounds().getHeight());
+        textField.setLayoutX(nameSequentiel.getLayoutX());
+        textField.setLayoutY(nameSequentiel.getLayoutY());
+        textField.setOnAction(e -> {
+            nameSequentiel.setText(textField.getText());
+            nameSequentiel.setVisible(true);
+            renameSequentiel.setVisible(true);
+            sequentiel.setName(textField.getText());
+            textField.setVisible(false);
+        });
+        Pane parentPane = (Pane) nameSequentiel.getParent(); // Récupérer le parent du nœud nameSequentiel
+        parentPane.getChildren().add(textField); // Ajouter le champ de texte au parent
+
+        textField.requestFocus(); // Donner le focus au champ de texte pour faciliter la saisie
+
+        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                nameSequentiel.setText(textField.getText());
+                nameSequentiel.setVisible(true);
+                renameSequentiel.setVisible(true);
+                sequentiel.setName(textField.getText());
+                textField.setVisible(false);
+            }
+        });
     }
 
     public void addPictogramme(Pictograme pictograme) {
