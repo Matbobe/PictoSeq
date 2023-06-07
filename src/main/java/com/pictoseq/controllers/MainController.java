@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,6 +34,9 @@ public class MainController {
     private ScrollPane scrollPane;
     private SequentielList sequentielList;
     private PersistentModelManager persistentModelManager;
+    @FXML
+    private ImageView idImageLogo;
+
 
     @FXML
     private void initialize() {
@@ -42,6 +46,9 @@ public class MainController {
         // Chargement de la liste des séquenciels depuis le fichier de sauvegarde
         persistentModelManager = new PersistenceBySerialization();
         sequentielList = persistentModelManager.load();
+
+        //mise en place du logo
+        idImageLogo.setImage(new ImageView(String.valueOf(getClass().getResource("/images/Logo_Picto_Seq-removebg-preview.png"))).getImage());
 
         // Ouvre la fenêtre de création d'un nouveau séquenciel
         newSeqBtn.setOnAction(event -> {
