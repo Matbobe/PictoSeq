@@ -1,10 +1,12 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.app.Application;
 import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ChoiceBox;
@@ -12,15 +14,20 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -178,7 +185,18 @@ public class EditController {
             PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
             job.getJobSettings().setPageLayout(pageLayout);
 
-            job.printPage(scrollPaneSequentiel);
+            // Prenez un instantané de la ScrollPane
+            WritableImage snapshot = scrollPaneSequentiel.snapshot(new SnapshotParameters(), null);
+
+            // Créez une nouvelle ImageView pour imprimer
+            ImageView imageView = new ImageView(snapshot);
+
+            // Déplacer la copie en haut à gauche
+            imageView.setTranslateX(-imageView.getBoundsInParent().getMinX());
+            imageView.setTranslateY(-imageView.getBoundsInParent().getMinY());
+
+            // Imprimer la copie
+            job.printPage(imageView);
             job.endJob();
         }
     }
