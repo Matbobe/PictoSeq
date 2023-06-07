@@ -26,8 +26,6 @@ public class EditController {
     private TextField searchBar;
     @FXML
     private GridPane searchListGrid;
-    @FXML
-    private Pane sequentielPane;
     private Sequentiel sequentiel;
 
     @FXML
@@ -93,5 +91,6 @@ public class EditController {
     }
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;
+        borderPane.setCenter(sequentiel.getScrollPane());
     }
 }
