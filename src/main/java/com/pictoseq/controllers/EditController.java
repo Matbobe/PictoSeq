@@ -110,7 +110,7 @@ public class EditController {
         });
 
         // Gestionnaire d'événements pour le zoom
-        contentPane.setOnScroll(event -> {
+        scrollPaneSequentiel.setOnScroll(event -> {
             System.out.println("Scrolled");
             double zoomFactor = event.getDeltaY() > 0 ? 1.1 : 0.9;
             scaleTransform.setX(scaleTransform.getX() * zoomFactor);
