@@ -40,6 +40,7 @@ public class EditController {
     private ScrollPane scrollPaneSequentiel;
     private VBox vboxSequentiel;
     private Pane boxSequentiel;
+    private Label titleSequentiel;
 
     private Sequentiel sequentiel;
 
@@ -117,18 +118,17 @@ public class EditController {
         searchList.renderNext();
     }
 
-    private void loadPictogramme(Pictograme pictograme) {
+    private void loadPictogramme(Pictograme pictograme, String index) {
         Log.println("Added pictogram to the sequentiel");
         Pane newPane;
         String dir = idNum.getValue().toString();
-        String index = ""+sequentiel.size();
-        if (dir == "En haut") {
+        if (dir.equals("En haut")) {
             newPane = new VBox();
             newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
-        } else if (dir == "En bas") {
+        } else if (dir.equals("En bas")) {
             newPane = new VBox();
             newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
-        } else if (dir == "À gauche") {
+        } else if (dir.equals("À gauche")) {
             newPane = new HBox();
             newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
         } else {
@@ -139,7 +139,7 @@ public class EditController {
     }
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
-        loadPictogramme(pictograme);
+        loadPictogramme(pictograme, Integer.toString(sequentiel.size()));
     }
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
@@ -186,19 +186,17 @@ public class EditController {
             boxSequentiel = new VBox();
         }
         for (int i = 0; i < sequentiel.size(); i++){
-            loadPictogramme(sequentiel.getPictogramme(i));
+            loadPictogramme(sequentiel.getPictogramme(i), ""+(i+1));
         }
     }
     private void renderVBoxSequentiel() {
         this.vboxSequentiel = new VBox();
-        if (sequentiel.getDirectionTitle() == "En haut") {
-            Label title = new Label(sequentiel.getName());
-            vboxSequentiel.getChildren().add(title);
-            vboxSequentiel.getChildren().add(boxSequentiel);
+        titleSequentiel = new Label(sequentiel.getName());
+        if (sequentiel.getDirectionTitle().equals("En haut")) {
+
+            vboxSequentiel.getChildren().addAll(titleSequentiel,boxSequentiel);
         }else{
-            Label title = new Label(sequentiel.getName());
-            vboxSequentiel.getChildren().add(boxSequentiel);
-            vboxSequentiel.getChildren().add(title);
+            vboxSequentiel.getChildren().addAll(boxSequentiel,titleSequentiel);
         }
     }
 
@@ -254,6 +252,7 @@ public class EditController {
             Confirme.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-background-color:#3056D3; -fx-text-fill: White");
             Confirme.setOnAction(event1 -> {
                 sequentiel.setName(textField.getText());
+                titleSequentiel.setText(textField.getText());
                 headerBox.getChildren().clear();
                 addNameViewSequenciel();
             });
