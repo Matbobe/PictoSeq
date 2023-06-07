@@ -97,18 +97,19 @@ public class Sequentiel implements Serializable {
     public void addPictograme(Pictograme pictograme) {
         pictogrameList.add(pictograme);
         Pane newPane;
+        String index = ""+pictogrameList.size();
         if (directionNumber == Direction.UP){
             newPane = new VBox();
-            newPane.getChildren().addAll(new Label(pictograme.get_id()),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
         } else if (directionNumber == Direction.DOWN) {
             newPane = new VBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(pictograme.get_id()));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
         } else if (directionNumber == Direction.LEFT) {
             newPane = new HBox();
-            newPane.getChildren().addAll(new Label(pictograme.get_id()),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
         } else {
             newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(pictograme.get_id()));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
         }
         boxSequentiel.getChildren().add(newPane);
     }
