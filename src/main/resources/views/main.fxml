@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pictoseq.controllers.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pictoseq.controllers.MainController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -21,11 +21,10 @@
                <children>
                   <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="100.0" prefWidth="10000.0">
                      <children>
-                       <ImageView fitHeight="88.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="88.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Date-removebg-preview.png" />
                            </image></ImageView>
-                        </Text>
                      </children>
                      <opaqueInsets>
                         <Insets />
@@ -72,9 +71,9 @@
                   <Separator maxHeight="-Infinity" minHeight="-Infinity" prefHeight="3.0" prefWidth="10000.0" />
                </children>
             </HBox>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="10000.0" prefWidth="10000.0">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="10000.0" prefWidth="10000.0" vbarPolicy="AS_NEEDED">
             <content>
-               <TilePane fx:id="SeqListGrid" hgap="12.0" vgap="12.0" VBox.vgrow="ALWAYS"/>
+               <TilePane fx:id="SeqListGrid" hgap="12.0" vgap="12.0" VBox.vgrow="ALWAYS" />
             </content>
                <VBox.margin>
                   <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
