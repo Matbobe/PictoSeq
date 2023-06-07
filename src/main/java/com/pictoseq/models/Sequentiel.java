@@ -50,7 +50,7 @@ public class Sequentiel implements Serializable {
         this.pictogrameList = pictogrameList;
     }
 
-    private Pictograme[] getPictogrameList() {
+    public Pictograme[] getPictogrameList() {
         return pictogrameList.toArray(new Pictograme[0]);
     }
 
@@ -70,16 +70,22 @@ public class Sequentiel implements Serializable {
         return directionSequentielTitle;
     }
 
+    public void setDirectionSequentielTitle(String directionSequentielTitle) {
+        this.directionSequentielTitle = directionSequentielTitle;
+    }
+    public void removePictograme(Pictograme pictograme) {
+        pictogrameList.remove(pictograme);
+    }
     public String getDirectionPictogrameTitle() {
         return directionPictogrameTitle;
     }
 
-    public int size() {
-        return pictogrameList.size();
+    public void setDirectionPictogrameTitle(String directionPictogrameTitle) {
+        this.directionPictogrameTitle = directionPictogrameTitle;
     }
 
-    public void setDirectionPictogrameNumber(String directionPictogrameNumber) {
-        this.directionPictogrameNumber = directionPictogrameNumber;
+    public int size() {
+        return pictogrameList.size();
     }
 
     public String getDirectionBox() {
@@ -122,6 +128,10 @@ public class Sequentiel implements Serializable {
 
     public boolean getHorizontal() {
         return horizontal;
+    }
+
+    public void setHorizontal(boolean horizontal) {
+        this.horizontal = horizontal;
     }
     public ImageView[] getTreePictogrameImageView(int nb) {
         HttpClient client = HttpClient.newHttpClient();

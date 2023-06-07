@@ -77,6 +77,18 @@ public class EditController {
         idNum.setOnAction(event -> {
             changeDirectionOfNumbers();
         });
+        idDirection.setOnAction(event -> {
+            sequentiel.setHorizontal(!sequentiel.getHorizontal());
+        });
+        idColor.setOnAction(event -> {
+            sequentiel.setColor(idColor.getValue());
+        });
+        idText.setOnAction(event -> {
+            sequentiel.setDirectionPictogrameTitle(idText.getValue());
+        });
+        idTitle.setOnAction(event -> {
+            sequentiel.setDirectionSequentielTitle(idTitle.getValue());
+        });
     }
     @FXML
     void handleTextSearch(KeyEvent event) {
@@ -124,58 +136,69 @@ public class EditController {
         searchList.renderNext();
     }
 
-    private void loadPictogramme(Pictograme pictograme, String index) {
+    private void loadPictogramme(Pictograme pictograme) {
         Log.println("Added pictogram to the sequentiel");
         Pane newPane;
         String dir = idNum.getValue().toString();
         if (dir.equals("En haut")) {
             newPane = new VBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
         } else if (dir.equals("En bas")) {
             newPane = new VBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
         } else if (dir.equals("À gauche")) {
             newPane = new HBox();
-            newPane.getChildren().addAll(new Label(index),pictograme.getImageView());
+            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
         } else {
             newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(index));
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
         }
+        newPane.setOnContextMenuRequested(event -> {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem delete = new MenuItem("Supprimer");
+            delete.setOnAction(event1 -> {
+                sequentiel.removePictograme(pictograme);
+                boxSequentiel.getChildren().remove(newPane);
+                updateIndexPictogrames();
+            });
+            contextMenu.getItems().add(delete);
+            contextMenu.show(newPane, event.getScreenX(), event.getScreenY());
+        });
         boxSequentiel.getChildren().add(newPane);
+    }
+
+    private void updateIndexPictogrames(){
+        Pictograme[] pictogrames = sequentiel.getPictogrameList();
+        for (int i = 0; i < pictogrames.length; i++) {
+            Pictograme pictograme = pictogrames[i];
+            String index = Integer.toString(i+1);
+            String direction = idNum.getValue().toString();
+            Pane pane = (Pane)boxSequentiel.getChildren().get(i);
+            if (direction.equals("En haut") || direction.equals("À gauche")) {
+                ((Label)pane.getChildren().get(0)).setText(index);
+            } else {
+                ((Label)pane.getChildren().get(1)).setText(index);
+            }
+
+        }
     }
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
-        loadPictogramme(pictograme, Integer.toString(sequentiel.size()));
+        loadPictogramme(pictograme);
     }
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
         this.sequentiel = sequentiel;
-        renderBoxSequentiel();
-        renderVBoxSequentiel();
-        scrollPaneSequentiel.setContent(vboxSequentiel);
-        scrollPaneSequentiel.setPannable(true);
         idNum.setValue(sequentiel.getDirectionPictogrameNumber());
         idText.setValue(sequentiel.getDirectionPictogrameTitle());
         idTitle.setValue(sequentiel.getDirectionSequentielTitle());
         idColor.setValue(Color.valueOf(sequentiel.getColor()));
         idDirection.setValue(sequentiel.getDirectionBox());
+        renderBoxSequentiel();
+        renderVBoxSequentiel();
+        scrollPaneSequentiel.setContent(vboxSequentiel);
+        scrollPaneSequentiel.setPannable(true);
         addNameViewSequenciel();
-    }
-
-    public void setColor(ColorPicker idColor){
-        this.idColor = idColor;
-    }
-
-    public void setDirection(ChoiceBox idDirection){
-        this.idDirection = idDirection;
-    }
-
-    public void setNum(ChoiceBox idNum){
-        this.idNum = idNum;
-    }
-
-    public void setText(ChoiceBox idText){
-        this.idText = idText;
     }
     @FXML
     public void exportSeqToPDF(ActionEvent actionEvent) {
@@ -208,8 +231,9 @@ public class EditController {
             boxSequentiel = new VBox();
         }
         for (int i = 0; i < sequentiel.size(); i++){
-            loadPictogramme(sequentiel.getPictogramme(i), ""+(i+1));
+            loadPictogramme(sequentiel.getPictogramme(i));
         }
+        updateIndexPictogrames();
     }
     private void renderVBoxSequentiel() {
         this.vboxSequentiel = new VBox();
