@@ -175,24 +175,6 @@ public class EditController {
         }
     }
 
-<<<<<<< Updated upstream
-    @FXML
-    void changeNumPos(MouseEvent event) {
-        ChoiceBox choiceBox = (ChoiceBox) event.getSource();
-        String value = (String) choiceBox.getValue();
-        if (value.equals("En bas")){
-            sequentiel.changeDirectionOfNumbers(Direction.DOWN);
-        }
-        else if (value.equals("En haut")){
-            sequentiel.changeDirectionOfNumbers(Direction.UP);
-        }
-        else if (value.equals("A droite")){
-            sequentiel.changeDirectionOfNumbers(Direction.RIGHT);
-        }else{
-            sequentiel.changeDirectionOfNumbers(Direction.LEFT);
-        }
-    }
-=======
     private void renderBoxSequentiel() {
         if (sequentiel.getHorizontal()) {
             boxSequentiel = new HBox();
@@ -238,6 +220,4 @@ public class EditController {
     private void clearBoxSequentiel() {
         boxSequentiel.getChildren().clear();
     }
-
->>>>>>> Stashed changes
 }
