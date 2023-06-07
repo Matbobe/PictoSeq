@@ -2,15 +2,8 @@ package com.pictoseq.models;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import com.pictoseq.controllers.EditController;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 
 import java.io.Serializable;
 import java.net.http.HttpClient;
@@ -20,19 +13,20 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Sequentiel implements Serializable {
     private final List<Pictograme> pictogrameList;
-    private transient Label labelTitle;
-    private String directionNumber;
-    private String directionTitle;
+    private String directionPictogrameNumber;
+    private String directionSequentielTitle;
+    private String directionPictogrameTitle;
+    private String color;
     private boolean horizontal;
     private String name;
-    private Text textPictogramme;
-    private Text textNum;
 
     public Sequentiel(String name) {
         this.pictogrameList = new LinkedList<>();
-        this.directionNumber = "En bas";
-        this.directionTitle = "En haut";
-        horizontal = true;
+        this.directionPictogrameNumber = "En bas";
+        this.directionSequentielTitle = "En haut";
+        this.directionPictogrameTitle = "En haut";
+        this.color = Color.GRAY.toString();
+        this.horizontal = true;
         this.name = name;
     }
 
@@ -40,15 +34,17 @@ public class Sequentiel implements Serializable {
     public Sequentiel(Sequentiel sequentiel) {
         this.pictogrameList = new LinkedList<>();
         this.horizontal = sequentiel.getHorizontal();
-        this.directionNumber = sequentiel.getDirectionNumber();
-        this.directionTitle = sequentiel.getDirectionTitle();
+        this.directionPictogrameNumber = sequentiel.getDirectionPictogrameNumber();
+        this.directionSequentielTitle = sequentiel.getDirectionSequentielTitle();
+        this.directionPictogrameTitle = sequentiel.getDirectionPictogrameTitle();
+        this.color = sequentiel.getColor();
         this.name = sequentiel.getName() + " (copie)";
         for (Pictograme pictograme : sequentiel.getPictogrameList()) {
             this.addPictograme(new Pictograme(pictograme));
         }
     }
     public void changeDirectionOfNumbers(String direction) {
-        directionNumber = direction;
+        directionPictogrameNumber = direction;
     }
     public Sequentiel(LinkedList<Pictograme> pictogrameList) {
         this.pictogrameList = pictogrameList;
@@ -66,18 +62,33 @@ public class Sequentiel implements Serializable {
         pictogrameList.clear();
     }
 
-    public String getDirectionNumber() {
-        return directionNumber;
+    public String getDirectionPictogrameNumber() {
+        return directionPictogrameNumber;
     }
 
-    public String getDirectionTitle() {
-        return directionTitle;
+    public String getDirectionSequentielTitle() {
+        return directionSequentielTitle;
+    }
+
+    public String getDirectionPictogrameTitle() {
+        return directionPictogrameTitle;
     }
 
     public int size() {
         return pictogrameList.size();
     }
 
+    public void setDirectionPictogrameNumber(String directionPictogrameNumber) {
+        this.directionPictogrameNumber = directionPictogrameNumber;
+    }
+
+    public String getDirectionBox() {
+        if (horizontal) {
+            return "Horizontal";
+        } else {
+            return "Vertical";
+        }
+    }
     public void render(HttpClient client) {
         for (Pictograme pictograme : pictogrameList){
             pictograme.render(client);
@@ -90,6 +101,14 @@ public class Sequentiel implements Serializable {
             res += pictograme;
         }
         return res;
+    }
+
+    public void setColor(Color color) {
+        this.color = color.toString();
+    }
+
+    public String getColor() {
+        return this.color;
     }
 
 

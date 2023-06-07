@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pictoseq.controllers.EditController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pictoseq.controllers.EditController">
    <left>
       <VBox minWidth="250.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
@@ -164,6 +164,26 @@
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="Horizontal" />
                                        <String fx:value="Vertical" />
+                                    </FXCollections>
+                                 </items>
+                              </ChoiceBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Titre :">
+                                 <HBox.margin>
+                                    <Insets right="33.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <ChoiceBox fx:id="idTitle" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="Horizontal">
+                                 <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                       <String fx:value="En haut" />
+                                       <String fx:value="En bas" />
                                     </FXCollections>
                                  </items>
                               </ChoiceBox>

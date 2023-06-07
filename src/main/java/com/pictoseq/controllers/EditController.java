@@ -1,6 +1,5 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.app.Application;
 import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -13,17 +12,15 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -41,22 +38,24 @@ public class EditController {
     private VBox vboxSequentiel;
     private Pane boxSequentiel;
     private Label titleSequentiel;
-
     private Sequentiel sequentiel;
 
     @FXML
     private HBox headerBox;
     @FXML
-    public static ColorPicker idColor;
+    public ColorPicker idColor;
 
     @FXML
-    private ChoiceBox<?> idDirection;
+    private ChoiceBox<String> idDirection;
 
     @FXML
-    private ChoiceBox<?> idNum;
+    private ChoiceBox<String> idNum;
 
     @FXML
-    private ChoiceBox<?> idText;
+    private ChoiceBox<String> idText;
+
+    @FXML
+    private ChoiceBox<String> idTitle;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -148,6 +147,11 @@ public class EditController {
         renderVBoxSequentiel();
         scrollPaneSequentiel.setContent(vboxSequentiel);
         scrollPaneSequentiel.setPannable(true);
+        idNum.setValue(sequentiel.getDirectionPictogrameNumber());
+        idText.setValue(sequentiel.getDirectionPictogrameTitle());
+        idTitle.setValue(sequentiel.getDirectionSequentielTitle());
+        idColor.setValue(Color.valueOf(sequentiel.getColor()));
+        idDirection.setValue(sequentiel.getDirectionBox());
         addNameViewSequenciel();
     }
 
@@ -192,7 +196,7 @@ public class EditController {
     private void renderVBoxSequentiel() {
         this.vboxSequentiel = new VBox();
         titleSequentiel = new Label(sequentiel.getName());
-        if (sequentiel.getDirectionTitle().equals("En haut")) {
+        if (sequentiel.getDirectionSequentielTitle().equals("En haut")) {
 
             vboxSequentiel.getChildren().addAll(titleSequentiel,boxSequentiel);
         }else{
@@ -203,9 +207,11 @@ public class EditController {
     private void changeDirectionOfNumbers(){
         String direction = idNum.getValue().toString();
         sequentiel.changeDirectionOfNumbers(direction);
+
         switch (direction){
             case "Haut":
                 sequentiel.changeDirectionOfNumbers("En haut");
+
                 break;
             case "Bas":
                 sequentiel.changeDirectionOfNumbers("En bas");
