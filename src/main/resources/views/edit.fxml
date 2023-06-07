@@ -12,12 +12,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pictoseq.controllers.EditController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pictoseq.controllers.EditController">
    <left>
       <VBox minWidth="250.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
@@ -198,7 +199,7 @@
                <bottom>
                   <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                      <children>
-                        <Button graphicTextGap="6.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#exportSeqToPDF"  prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #3056D3; -fx-text-fill: #3056D3; -fx-border-radius: 5;" text="Exporter en PDF" textFill="#3056d3">
+                        <Button graphicTextGap="6.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#exportSeqToPDF" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: #3056D3; -fx-text-fill: #3056D3; -fx-border-radius: 5;" text="Exporter en PDF" textFill="#3056d3">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -279,9 +280,11 @@
       </HBox>
    </top>
    <center>
-
-   </center>
-   <center>
-      <ScrollPane fx:id="scrollPaneSequentiel" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ScrollPane fx:id="scrollPaneSequentiel">
+      <content>
+         <Pane fx:id="contentPane">
+      </Pane>
+   </content>
+      </ScrollPane>
    </center>
 </BorderPane>
