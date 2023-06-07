@@ -1,10 +1,10 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.app.Application;
 import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -26,6 +26,8 @@ public class EditController {
     private BorderPane borderPane;
     @FXML
     private TextField searchBar;
+    @FXML
+    private ScrollPane scrollPaneSequentiel;
     @FXML
     private GridPane searchListGrid;
 
@@ -131,6 +133,10 @@ public class EditController {
     }
     public void setSequentiel(Sequentiel sequentiel) {
         this.sequentiel = sequentiel;
-        borderPane.setCenter(sequentiel.getScrollPane());
+        scrollPaneSequentiel.setContent(sequentiel.getVboxSequentiel());
+        scrollPaneSequentiel.setPannable(true);
+        nameSequentiel.setText(sequentiel.getName());
+
+
     }
 }
