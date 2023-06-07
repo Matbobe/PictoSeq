@@ -1,13 +1,12 @@
 package com.pictoseq.controllers;
 
+import com.pictoseq.app.Application;
 import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
+import javafx.print.*;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +15,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -30,11 +28,9 @@ public class EditController {
     @FXML
     private TextField searchBar;
     @FXML
-    private ScrollPane scrollPaneSequentiel;
-
-    @FXML
     private TilePane searchListGrid;
-
+    @FXML
+    private ScrollPane scrollPaneSequentiel;
     @FXML
     private Text nameSequentiel;
 
@@ -170,5 +166,17 @@ public class EditController {
 
     public void setText(ChoiceBox idText){
         this.idText = idText;
+    }
+    @FXML
+    public void exportSeqToPDF(ActionEvent actionEvent) {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            Printer printer = job.getPrinter();
+            PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
+            job.getJobSettings().setPageLayout(pageLayout);
+
+            job.printPage(scrollPaneSequentiel);
+            job.endJob();
+        }
     }
 }
