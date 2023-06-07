@@ -231,7 +231,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom du Séquentiel">
+                  <Text fx:id="nameSequentiel" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom du Séquentiel">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -239,6 +239,18 @@
                         <Insets left="16.0" />
                      </HBox.margin>
                   </Text>
+                  <Button fx:id="renameSequentiel" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onRenameButtonClick" style="-fx-background-color: #3056D3; -fx-background-radius: 5;" text="Modifier" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pencilW-icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
                <opaqueInsets>
                   <Insets />
