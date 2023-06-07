@@ -15,6 +15,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
@@ -35,14 +36,11 @@ public class EditController {
     private TilePane searchListGrid;
     @FXML
     private ScrollPane scrollPaneSequentiel;
-    @FXML
-    private Text nameSequentiel;
-
-    @FXML
-    private Button renameSequentiel;
 
     private Sequentiel sequentiel;
 
+    @FXML
+    private HBox headerBox;
     @FXML
     public static ColorPicker idColor;
 
@@ -111,37 +109,6 @@ public class EditController {
         // Si on arrive ici, c'est qu'on a scrollé jusqu'en bas
         searchList.renderNext();
     }
-    @FXML
-    void onRenameButtonClick(ActionEvent event) {
-        nameSequentiel.setVisible(false);
-        renameSequentiel.setVisible(true);
-        TextField textField = new TextField(nameSequentiel.getText());
-        textField.setPrefWidth(nameSequentiel.getLayoutBounds().getWidth());
-        textField.setPrefHeight(nameSequentiel.getLayoutBounds().getHeight());
-        textField.setLayoutX(nameSequentiel.getLayoutX());
-        textField.setLayoutY(nameSequentiel.getLayoutY());
-        textField.setOnAction(e -> {
-            nameSequentiel.setText(textField.getText());
-            nameSequentiel.setVisible(true);
-            renameSequentiel.setVisible(true);
-            sequentiel.setName(textField.getText());
-            textField.setVisible(false);
-        });
-        Pane parentPane = (Pane) nameSequentiel.getParent(); // Récupérer le parent du nœud nameSequentiel
-        parentPane.getChildren().add(textField); // Ajouter le champ de texte au parent
-
-        textField.requestFocus(); // Donner le focus au champ de texte pour faciliter la saisie
-
-        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal) {
-                nameSequentiel.setText(textField.getText());
-                nameSequentiel.setVisible(true);
-                renameSequentiel.setVisible(true);
-                sequentiel.setName(textField.getText());
-                textField.setVisible(false);
-            }
-        });
-    }
 
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
@@ -151,9 +118,6 @@ public class EditController {
         this.sequentiel = sequentiel;
         scrollPaneSequentiel.setContent(sequentiel.getVboxSequentiel());
         scrollPaneSequentiel.setPannable(true);
-        nameSequentiel.setText(sequentiel.getName());
-
-
     }
 
     public void setColor(ColorPicker idColor){
