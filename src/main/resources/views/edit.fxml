@@ -115,11 +115,13 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font></Text>
-                              <ChoiceBox fx:id="idNum" onContextMenuRequested="#changeNumPos" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En bas">
+                              <ChoiceBox fx:id="idNum" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En bas">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                       <String fx:value="En bas" />
                                        <String fx:value="En haut" />
+                                       <String fx:value="En bas" />
+                                       <String fx:value="À gauche" />
+                                       <String fx:value="À droite" />
                                        <String fx:value="Désactiver" />
                                     </FXCollections>
                                  </items>
@@ -136,7 +138,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Text>
-                              <ChoiceBox fx:id="idText" onMouseClicked="#changeNumPos" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En haut">
+                              <ChoiceBox fx:id="idText" prefWidth="140.0" style="-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 8;" value="En haut">
                                  <items>
                                     <FXCollections fx:factory="observableArrayList">
                                        <String fx:value="En bas" />

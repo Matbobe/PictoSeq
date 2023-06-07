@@ -64,6 +64,11 @@ public class EditController {
     void initialize() {
         client = HttpClient.newHttpClient();
         searchList = new SearchList(searchListGrid, client, this);
+
+        idNum.setOnAction(event -> {
+            Direction dir = Direction.getDirection(idNum.getValue().toString());
+            sequentiel.changeDirectionOfNumbers(dir);
+        });
     }
     @FXML
     void handleTextSearch(KeyEvent event) {
@@ -121,21 +126,6 @@ public class EditController {
         scrollPaneSequentiel.setPannable(true);
     }
 
-    public void setColor(ColorPicker idColor){
-        this.idColor = idColor;
-    }
-
-    public void setDirection(ChoiceBox idDirection){
-        this.idDirection = idDirection;
-    }
-
-    public void setNum(ChoiceBox idNum){
-        this.idNum = idNum;
-    }
-
-    public void setText(ChoiceBox idText){
-        this.idText = idText;
-    }
     @FXML
     public void exportSeqToPDF(ActionEvent actionEvent) {
         PrinterJob job = PrinterJob.createPrinterJob();
@@ -149,20 +139,4 @@ public class EditController {
         }
     }
 
-    @FXML
-    void changeNumPos(MouseEvent event) {
-        ChoiceBox choiceBox = (ChoiceBox) event.getSource();
-        String value = (String) choiceBox.getValue();
-        if (value.equals("En bas")){
-            sequentiel.changeDirectionOfNumbers(Direction.DOWN);
-        }
-        else if (value.equals("En haut")){
-            sequentiel.changeDirectionOfNumbers(Direction.UP);
-        }
-        else if (value.equals("A droite")){
-            sequentiel.changeDirectionOfNumbers(Direction.RIGHT);
-        }else{
-            sequentiel.changeDirectionOfNumbers(Direction.LEFT);
-        }
-    }
 }
