@@ -69,8 +69,11 @@ public class Sequentiel implements Serializable {
 
     public void addPictograme(Pictograme pictograme) {
         pictogrameList.add(pictograme);
-        getHbox().getChildren().add(pictograme.getImageView());
-        Log.println(""+ scrollPane.getScaleX());
+        if (pictograme.getImageView() != null) {
+            getHbox().getChildren().add(pictograme.getImageView());
+        } else {
+            Log.printError("ImageView is null");
+        }
     }
 
     public void clear() {
