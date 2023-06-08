@@ -7,6 +7,8 @@ import com.pictoseq.models.Sequentiel;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
@@ -139,9 +141,15 @@ public class EditController {
         });
         idColor.setOnAction(event -> {
             sequentiel.setColor(idColor.getValue());
+            renderBoxSequentiel();
+            renderVBoxSequentiel();
+            contentPane.getChildren().setAll(vboxSequentiel);
         });
         idText.setOnAction(event -> {
             sequentiel.setDirectionPictogrameTitle(idText.getValue());
+            renderBoxSequentiel();
+            renderVBoxSequentiel();
+            contentPane.getChildren().setAll(vboxSequentiel);
         });
         idTitle.setOnAction(event -> {
             sequentiel.setDirectionSequentielTitle(idTitle.getValue());
@@ -210,23 +218,14 @@ public class EditController {
         Log.println("Added pictogram to the sequentiel");
         Pane basePane = new Pane();
         Pane newPane;
+        Label texte;
+        Label titrePicto;
+        titrePicto = new Label(pictograme.getKeyword());
+        titrePicto.setFont(new Font("Arial", 10));
+        VBox panePicto = new VBox();
+        texte = new Label(""+sequentiel.size());
+        texte.setFont(new Font("Arial", 20));
         String dir = idNum.getValue().toString();
-        if (dir.equals("En haut")) {
-            newPane = new VBox();
-            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
-        } else if (dir.equals("En bas")) {
-            newPane = new VBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
-        } else if (dir.equals("À gauche")) {
-            newPane = new HBox();
-            newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
-        } else if (dir.equals("À droite")) {
-            newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
-        } else {
-            newPane = new HBox();
-            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""));
-        }
         Image removeImage = new Image(getClass().getResourceAsStream("/images/delete-icon.png"));
         ImageView removeImageView = new ImageView(removeImage);
         removeImageView.setFitHeight(20);
@@ -238,6 +237,7 @@ public class EditController {
             updateIndexPictogrames();
         });
         paneRemoveImageView.getChildren().add(removeImageView);
+
         Pane paneLeftArrow = new Pane();
         Pane paneRightArrow = new Pane();
         Label leftArrow;
@@ -295,18 +295,66 @@ public class EditController {
         rightArrow.setFont(new Font(20));
         paneLeftArrow.getChildren().add(leftArrow);
         paneRightArrow.getChildren().add(rightArrow);
-        basePane.getChildren().addAll(newPane, paneRemoveImageView, paneLeftArrow, paneRightArrow);
         paneLeftArrow.setLayoutX(80);
         paneLeftArrow.setLayoutY(0);
         paneRightArrow.setLayoutX(100);
         paneRightArrow.setLayoutY(0);
+
+        if (sequentiel.getDirectionPictogrameTitle().equals("En haut")){
+            panePicto.getChildren().addAll(titrePicto,new Pane(pictograme.getImageView(),paneRemoveImageView, paneLeftArrow, paneRightArrow));
+        }else if (sequentiel.getDirectionPictogrameTitle().equals("En bas")){
+            panePicto.getChildren().addAll(new Pane(pictograme.getImageView(),paneRemoveImageView, paneLeftArrow, paneRightArrow),titrePicto);
+        } else{
+            panePicto.getChildren().addAll(new Pane(pictograme.getImageView(),paneRemoveImageView, paneLeftArrow, paneRightArrow));
+        }
+        BorderStroke borderStroke = new BorderStroke(
+                idColor.getValue(), BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+        panePicto.setBorder(new Border(borderStroke));
+        panePicto.setPrefSize(120,120);
+        panePicto.setMinSize(120,120);
+        panePicto.setMaxSize(120,120);
+        panePicto.setAlignment(Pos.CENTER);
+        if (dir.equals("En haut")) {
+            newPane = new VBox();
+            newPane.getChildren().addAll(texte,panePicto);
+            ((VBox) newPane).setAlignment(Pos.CENTER);
+        } else if (dir.equals("En bas")) {
+            newPane = new VBox();
+            newPane.getChildren().addAll(panePicto,texte);
+            ((VBox) newPane).setAlignment(Pos.CENTER);
+        } else if (dir.equals("À gauche")) {
+            newPane = new HBox();
+            newPane.getChildren().addAll(texte,panePicto);
+            ((HBox) newPane).setAlignment(Pos.CENTER);
+        } else if (dir.equals("À droite")) {
+            newPane = new HBox();
+            newPane.getChildren().addAll(panePicto,texte);
+            ((HBox) newPane).setAlignment(Pos.CENTER);
+        } else {
+            newPane = new HBox();
+            newPane.getChildren().addAll(panePicto);
+            ((HBox) newPane).setAlignment(Pos.CENTER);
+        }
         if (boxSequentiel.getChildren().size() != 0){
             Pane lastPane = (Pane) boxSequentiel.getChildren().get(boxSequentiel.getChildren().size()-1);
-            Pane lastPaneRightArrow = (Pane) lastPane.getChildren().get(3);
+            if (dir.equals("En haut") || dir.equals("À gauche")) {
+                lastPane = (Pane) lastPane.getChildren().get(1);
+            }else {
+                lastPane = (Pane) lastPane.getChildren().get(0);
+            }
+            Pane p;
+            if (sequentiel.getDirectionPictogrameTitle().equals("En haut")){
+                p = (Pane) lastPane.getChildren().get(1);
+            }else{
+                p = (Pane) lastPane.getChildren().get(0);
+            }
+
+            Pane lastPaneRightArrow = (Pane) p.getChildren().get(3);
             Label lastPaneRightArrowLabel = (Label) lastPaneRightArrow.getChildren().get(0);
             lastPaneRightArrowLabel.setVisible(true);
         }
-        boxSequentiel.getChildren().add(basePane);
+        newPane.setStyle("-fx-background-color: #ffffff;");
+        boxSequentiel.getChildren().add(newPane);
     }
 
     private void updateIndexPictogrames(){
@@ -315,12 +363,10 @@ public class EditController {
             String direction = idNum.getValue().toString();
             Pane pane = (Pane)boxSequentiel.getChildren().get(i);
             if (direction.equals("En haut") || direction.equals("À gauche")) {
-                Pane panePicto = (Pane)pane.getChildren().get(0);
-                ((Label)panePicto.getChildren().get(0)).setText(index);
+                ((Label)pane.getChildren().get(0)).setText(index);
 
             } else {
-                Pane panePicto = (Pane)pane.getChildren().get(0);
-                ((Label)panePicto.getChildren().get(1)).setText(index);
+                ((Label)pane.getChildren().get(1)).setText(index);
             }
 
         }
@@ -332,7 +378,6 @@ public class EditController {
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
         this.sequentiel = sequentiel;
-
         idNum.setValue(sequentiel.getDirectionPictogrameNumber());
         idText.setValue(sequentiel.getDirectionPictogrameTitle());
         idTitle.setValue(sequentiel.getDirectionSequentielTitle());
