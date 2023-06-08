@@ -130,7 +130,12 @@ public class EditController {
             changeDirectionOfNumbers();
         });
         idDirection.setOnAction(event -> {
-            sequentiel.setHorizontal(!sequentiel.getHorizontal());
+            boolean val = idDirection.getValue().equals("Horizontal");
+            sequentiel.setHorizontal(val);
+            renderBoxSequentiel();
+            renderVBoxSequentiel();
+            contentPane.getChildren().setAll(vboxSequentiel);
+
         });
         idColor.setOnAction(event -> {
             sequentiel.setColor(idColor.getValue());
