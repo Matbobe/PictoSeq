@@ -127,7 +127,10 @@ public class EditController {
         });
 
         idNum.setOnAction(event -> {
-            changeDirectionOfNumbers();
+            sequentiel.changeDirectionOfNumbers(idNum.getValue());
+            renderBoxSequentiel();
+            renderVBoxSequentiel();
+            contentPane.getChildren().setAll(vboxSequentiel);
         });
         idDirection.setOnAction(event -> {
             boolean val = idDirection.getValue().equals("Horizontal");
@@ -145,6 +148,9 @@ public class EditController {
         });
         idTitle.setOnAction(event -> {
             sequentiel.setDirectionSequentielTitle(idTitle.getValue());
+            renderBoxSequentiel();
+            renderVBoxSequentiel();
+            contentPane.getChildren().setAll(vboxSequentiel);
         });
     }
     @FXML
@@ -206,9 +212,12 @@ public class EditController {
         } else if (dir.equals("À gauche")) {
             newPane = new HBox();
             newPane.getChildren().addAll(new Label(""+sequentiel.size()),pictograme.getImageView());
-        } else {
+        } else if (dir.equals("À droite")) {
             newPane = new HBox();
             newPane.getChildren().addAll(pictograme.getImageView(),new Label(""+sequentiel.size()));
+        } else {
+            newPane = new HBox();
+            newPane.getChildren().addAll(pictograme.getImageView(),new Label(""));
         }
         newPane.setOnContextMenuRequested(event -> {
             ContextMenu contextMenu = new ContextMenu();
@@ -225,9 +234,7 @@ public class EditController {
     }
 
     private void updateIndexPictogrames(){
-        Pictograme[] pictogrames = sequentiel.getPictogrameList();
-        for (int i = 0; i < pictogrames.length; i++) {
-            Pictograme pictograme = pictogrames[i];
+        for (int i = 0; i < sequentiel.size(); i++) {
             String index = Integer.toString(i+1);
             String direction = idNum.getValue().toString();
             Pane pane = (Pane)boxSequentiel.getChildren().get(i);
@@ -326,7 +333,9 @@ public class EditController {
         for (int i = 0; i < sequentiel.size(); i++){
             loadPictogramme(sequentiel.getPictogramme(i));
         }
-        updateIndexPictogrames();
+        if (!idNum.getValue().equals("Désactiver")) {
+            updateIndexPictogrames();
+        }
     }
     private void renderVBoxSequentiel() {
         this.vboxSequentiel = new VBox();
@@ -336,27 +345,6 @@ public class EditController {
             vboxSequentiel.getChildren().addAll(titleSequentiel,boxSequentiel);
         }else{
             vboxSequentiel.getChildren().addAll(boxSequentiel,titleSequentiel);
-        }
-    }
-
-    private void changeDirectionOfNumbers(){
-        String direction = idNum.getValue().toString();
-        sequentiel.changeDirectionOfNumbers(direction);
-
-        switch (direction){
-            case "Haut":
-                sequentiel.changeDirectionOfNumbers("En haut");
-
-                break;
-            case "Bas":
-                sequentiel.changeDirectionOfNumbers("En bas");
-                break;
-            case "Gauche":
-                sequentiel.changeDirectionOfNumbers("À gauche");
-                break;
-            case "Droite":
-                sequentiel.changeDirectionOfNumbers("À droite");
-                break;
         }
     }
 
