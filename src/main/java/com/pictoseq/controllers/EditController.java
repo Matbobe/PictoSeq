@@ -18,6 +18,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
@@ -238,7 +239,23 @@ public class EditController {
         });
         paneRemoveImageView.getChildren().add(removeImageView);
         Pane paneLeftArrow = new Pane();
-        Image leftArrowImage = new Image(getClass().getResourceAsStream("/images/left-arrow.png"));
+        Pane paneRightArrow = new Pane();
+        Label leftArrow;
+        Label rightArrow;
+        if (sequentiel.getHorizontal()){
+            leftArrow = new Label("←");
+            rightArrow = new Label("→");
+        }else {
+            leftArrow = new Label("↑");
+            rightArrow = new Label("↓");
+        }
+
+        if (sequentiel.indexOf(pictograme) == 0) {
+            leftArrow.setVisible(false);
+        }
+        if (sequentiel.indexOf(pictograme) == sequentiel.size()-1) {
+            rightArrow.setVisible(false);
+        }
         paneLeftArrow.setOnMouseClicked(event -> {
             int index = sequentiel.indexOf(pictograme);
             if (index > 0) {
@@ -246,11 +263,49 @@ public class EditController {
                 renderBoxSequentiel();
                 renderVBoxSequentiel();
                 contentPane.getChildren().setAll(vboxSequentiel);
+                leftArrow.setVisible(true);
+                if (index == sequentiel.size()-1) {
+                    rightArrow.setVisible(false);
+                } else {
+                    rightArrow.setVisible(true);
+                }
             } else {
-                Log.println("Can't swap pictogrames");
+                leftArrow.setVisible(false);
             }
         });
-        basePane.getChildren().addAll(newPane,paneRemoveImageView);
+
+        paneRightArrow.setOnMouseClicked(event -> {
+            int index = sequentiel.indexOf(pictograme);
+            if (index < sequentiel.size()-1) {
+                sequentiel.swapPictogrames(index,index+1);
+                renderBoxSequentiel();
+                renderVBoxSequentiel();
+                contentPane.getChildren().setAll(vboxSequentiel);
+                rightArrow.setVisible(true);
+                if (index == 0) {
+                    leftArrow.setVisible(false);
+                } else {
+                    leftArrow.setVisible(true);
+                }
+            } else {
+                rightArrow.setVisible(false);
+            }
+        });
+        leftArrow.setFont(new Font(20));
+        rightArrow.setFont(new Font(20));
+        paneLeftArrow.getChildren().add(leftArrow);
+        paneRightArrow.getChildren().add(rightArrow);
+        basePane.getChildren().addAll(newPane, paneRemoveImageView, paneLeftArrow, paneRightArrow);
+        paneLeftArrow.setLayoutX(80);
+        paneLeftArrow.setLayoutY(0);
+        paneRightArrow.setLayoutX(100);
+        paneRightArrow.setLayoutY(0);
+        if (boxSequentiel.getChildren().size() != 0){
+            Pane lastPane = (Pane) boxSequentiel.getChildren().get(boxSequentiel.getChildren().size()-1);
+            Pane lastPaneRightArrow = (Pane) lastPane.getChildren().get(3);
+            Label lastPaneRightArrowLabel = (Label) lastPaneRightArrow.getChildren().get(0);
+            lastPaneRightArrowLabel.setVisible(true);
+        }
         boxSequentiel.getChildren().add(basePane);
     }
 
