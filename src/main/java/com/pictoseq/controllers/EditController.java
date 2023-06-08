@@ -64,6 +64,7 @@ public class EditController {
     @FXML
     private ChoiceBox<String> idTitle;
 
+    // Zoom et drag
     private double dragStartX;
     private double dragStartY;
     private double scrollPositionX;

@@ -280,11 +280,12 @@
       </HBox>
    </top>
    <center>
-      <ScrollPane fx:id="scrollPaneSequentiel">
+      <ScrollPane fx:id="scrollPaneSequentiel" hbarPolicy="NEVER" vbarPolicy="NEVER">
+      >
          <content>
          <Pane fx:id="contentPane">
          </Pane>
          </content>
-      </ScrollPane>
+      </>
    </center>
 </BorderPane>
