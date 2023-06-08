@@ -29,8 +29,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class EditController {
-    private HttpClient client;
-    public SearchList searchList;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -39,32 +37,30 @@ public class EditController {
     private TilePane searchListGrid;
     @FXML
     private ScrollPane scrollPaneSequentiel;
-
+    @FXML
+    private HBox categories;
     @FXML
     private Pane contentPane;
+    @FXML
+    private HBox headerBox;
+    @FXML
+    public ColorPicker idColor;
+    @FXML
+    private ChoiceBox<String> idDirection;
+    @FXML
+    private ChoiceBox<String> idNum;
+    @FXML
+    private ChoiceBox<String> idText;
+    @FXML
+    private ChoiceBox<String> idTitle;
+
+    public SearchList searchList;
+    private HttpClient client;
     private VBox vboxSequentiel;
     private Pane boxSequentiel;
     private Label titleSequentiel;
     private Sequentiel sequentiel;
 
-    @FXML
-    private HBox headerBox;
-    @FXML
-    public ColorPicker idColor;
-
-    @FXML
-    private ChoiceBox<String> idDirection;
-
-    @FXML
-    private ChoiceBox<String> idNum;
-
-    @FXML
-    private ChoiceBox<String> idText;
-
-    @FXML
-    private ChoiceBox<String> idTitle;
-
-    // Zoom et drag
     private double dragStartX;
     private double dragStartY;
     private double scrollPositionX;
@@ -151,6 +147,16 @@ public class EditController {
             renderBoxSequentiel();
             renderVBoxSequentiel();
             contentPane.getChildren().setAll(vboxSequentiel);
+        });
+
+        // recherche par catégorie
+        categories.getChildren().forEach((node) -> {
+            node.setOnMouseClicked(event -> {
+                Button button = (Button) node;
+                String category = button.getText().toLowerCase();
+                searchBar.setText(category);
+                handleTextSearch(null);
+            });
         });
     }
     @FXML
