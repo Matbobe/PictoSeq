@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -65,7 +63,9 @@ public class MainController {
         // Affiche la liste des séquenciels
         renderSequentielList();
     }
-
+    public void save() {
+        persistentModelManager.save(sequentielList);
+    }
     private void openEditWindow(Sequentiel sequentiel) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/edit.fxml"));
         Parent root = loader.load();
@@ -77,6 +77,7 @@ public class MainController {
         editStage.setScene(new Scene(root));
         editStage.setMaximized(true);
         editController.setSequentiel(sequentiel);
+        editController.setMainController(this);
         editStage.showAndWait();
 
         // Sauvegarder la liste des séquenciels quand la fenêtre de modification est fermée

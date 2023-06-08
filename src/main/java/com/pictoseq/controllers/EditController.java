@@ -1,9 +1,6 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.models.Log;
-import com.pictoseq.models.Pictograme;
-import com.pictoseq.models.SearchList;
-import com.pictoseq.models.Sequentiel;
+import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +13,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
@@ -67,6 +65,7 @@ public class EditController {
     private Translate translateTransform = new Translate(0.0, 0.0);
     private static final double ZOOM_MIN = 0.5;
     private static final double ZOOM_MAX = 10.0;
+    private MainController mainController;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -208,6 +207,7 @@ public class EditController {
 
     private void loadPictogramme(Pictograme pictograme) {
         Log.println("Added pictogram to the sequentiel");
+        Pane basePane = new Pane();
         Pane newPane;
         String dir = idNum.getValue().toString();
         if (dir.equals("En haut")) {
@@ -226,18 +226,86 @@ public class EditController {
             newPane = new HBox();
             newPane.getChildren().addAll(pictograme.getImageView(),new Label(""));
         }
-        newPane.setOnContextMenuRequested(event -> {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem delete = new MenuItem("Supprimer");
-            delete.setOnAction(event1 -> {
-                sequentiel.removePictograme(pictograme);
-                boxSequentiel.getChildren().remove(newPane);
-                updateIndexPictogrames();
-            });
-            contextMenu.getItems().add(delete);
-            contextMenu.show(newPane, event.getScreenX(), event.getScreenY());
+        Image removeImage = new Image(getClass().getResourceAsStream("/images/delete-icon.png"));
+        ImageView removeImageView = new ImageView(removeImage);
+        removeImageView.setFitHeight(20);
+        removeImageView.setFitWidth(20);
+        Pane paneRemoveImageView = new Pane();
+        paneRemoveImageView.setOnMouseClicked(event -> {
+            sequentiel.removePictograme(pictograme);
+            boxSequentiel.getChildren().remove(basePane);
+            updateIndexPictogrames();
         });
-        boxSequentiel.getChildren().add(newPane);
+        paneRemoveImageView.getChildren().add(removeImageView);
+        Pane paneLeftArrow = new Pane();
+        Pane paneRightArrow = new Pane();
+        Label leftArrow;
+        Label rightArrow;
+        if (sequentiel.getHorizontal()){
+            leftArrow = new Label("←");
+            rightArrow = new Label("→");
+        }else {
+            leftArrow = new Label("↑");
+            rightArrow = new Label("↓");
+        }
+
+        if (sequentiel.indexOf(pictograme) == 0) {
+            leftArrow.setVisible(false);
+        }
+        if (sequentiel.indexOf(pictograme) == sequentiel.size()-1) {
+            rightArrow.setVisible(false);
+        }
+        paneLeftArrow.setOnMouseClicked(event -> {
+            int index = sequentiel.indexOf(pictograme);
+            if (index > 0) {
+                sequentiel.swapPictogrames(index,index-1);
+                renderBoxSequentiel();
+                renderVBoxSequentiel();
+                contentPane.getChildren().setAll(vboxSequentiel);
+                leftArrow.setVisible(true);
+                if (index == sequentiel.size()-1) {
+                    rightArrow.setVisible(false);
+                } else {
+                    rightArrow.setVisible(true);
+                }
+            } else {
+                leftArrow.setVisible(false);
+            }
+        });
+
+        paneRightArrow.setOnMouseClicked(event -> {
+            int index = sequentiel.indexOf(pictograme);
+            if (index < sequentiel.size()-1) {
+                sequentiel.swapPictogrames(index,index+1);
+                renderBoxSequentiel();
+                renderVBoxSequentiel();
+                contentPane.getChildren().setAll(vboxSequentiel);
+                rightArrow.setVisible(true);
+                if (index == 0) {
+                    leftArrow.setVisible(false);
+                } else {
+                    leftArrow.setVisible(true);
+                }
+            } else {
+                rightArrow.setVisible(false);
+            }
+        });
+        leftArrow.setFont(new Font(20));
+        rightArrow.setFont(new Font(20));
+        paneLeftArrow.getChildren().add(leftArrow);
+        paneRightArrow.getChildren().add(rightArrow);
+        basePane.getChildren().addAll(newPane, paneRemoveImageView, paneLeftArrow, paneRightArrow);
+        paneLeftArrow.setLayoutX(80);
+        paneLeftArrow.setLayoutY(0);
+        paneRightArrow.setLayoutX(100);
+        paneRightArrow.setLayoutY(0);
+        if (boxSequentiel.getChildren().size() != 0){
+            Pane lastPane = (Pane) boxSequentiel.getChildren().get(boxSequentiel.getChildren().size()-1);
+            Pane lastPaneRightArrow = (Pane) lastPane.getChildren().get(3);
+            Label lastPaneRightArrowLabel = (Label) lastPaneRightArrow.getChildren().get(0);
+            lastPaneRightArrowLabel.setVisible(true);
+        }
+        boxSequentiel.getChildren().add(basePane);
     }
 
     private void updateIndexPictogrames(){
@@ -246,9 +314,12 @@ public class EditController {
             String direction = idNum.getValue().toString();
             Pane pane = (Pane)boxSequentiel.getChildren().get(i);
             if (direction.equals("En haut") || direction.equals("À gauche")) {
-                ((Label)pane.getChildren().get(0)).setText(index);
+                Pane panePicto = (Pane)pane.getChildren().get(0);
+                ((Label)panePicto.getChildren().get(0)).setText(index);
+
             } else {
-                ((Label)pane.getChildren().get(1)).setText(index);
+                Pane panePicto = (Pane)pane.getChildren().get(0);
+                ((Label)panePicto.getChildren().get(1)).setText(index);
             }
 
         }
@@ -382,6 +453,15 @@ public class EditController {
         boxSequentiel.getChildren().clear();
     }
 
+    @FXML
+    private void onButtonSaveClick() {
+        mainController.save();
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+        onButtonSaveClick();
+    }
     private void addNameViewSequenciel(){
         HBox container = new HBox();
         Text nameSequentiel = new Text();
