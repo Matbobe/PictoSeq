@@ -249,11 +249,15 @@ public class EditController {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             Printer printer = job.getPrinter();
-            PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
+            PageOrientation pageOrientation = PageOrientation.PORTRAIT;
+            if (sequentiel.getHorizontal()) {
+                pageOrientation = PageOrientation.LANDSCAPE;
+            }
+            PageLayout pageLayout = printer.createPageLayout(Paper.A4, pageOrientation, Printer.MarginType.DEFAULT);
             job.getJobSettings().setPageLayout(pageLayout);
 
             // Prenez un instantané de la ScrollPane
-            WritableImage snapshot = scrollPaneSequentiel.snapshot(new SnapshotParameters(), null);
+            WritableImage snapshot = contentPane.snapshot(new SnapshotParameters(), null);
 
             // Créez une nouvelle ImageView pour imprimer
             ImageView imageView = new ImageView(snapshot);

@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pictoseq.controllers.EditController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.pictoseq.controllers.EditController">
    <left>
       <VBox minWidth="250.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
@@ -26,7 +26,7 @@
                <children>
                   <TextField fx:id="searchBar" onKeyTyped="#handleTextSearch" promptText="Rechercher par nom" style="-fx-background-color: #F8FAFC; -fx-border-color: #E7E7E7; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-width: 1; -fx-text-fill: #637381;-fx-background-image:url('../images/search-icon.png'); -fx-background-repeat: no-repeat; -fx-background-position: right center;">
                      <VBox.margin>
-                        <Insets bottom="12.0" />
+                        <Insets bottom="12.0" />Z
                      </VBox.margin>
                   </TextField>
                   <ScrollPane minViewportHeight="40.0" prefHeight="50.0" prefWidth="218.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER">
