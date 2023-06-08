@@ -281,6 +281,37 @@ public class EditController {
         }
     }
 
+    @FXML
+    void printSeqToPDF(ActionEvent event) {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            Printer printer = job.getPrinter();
+            PageOrientation pageOrientation = PageOrientation.PORTRAIT;
+            if (sequentiel.getHorizontal()) {
+                pageOrientation = PageOrientation.LANDSCAPE;
+            }
+            PageLayout pageLayout = printer.createPageLayout(Paper.A4, pageOrientation, Printer.MarginType.DEFAULT);
+            job.getJobSettings().setPageLayout(pageLayout);
+
+            // Prenez un instantané de la ScrollPane
+            WritableImage snapshot = contentPane.snapshot(new SnapshotParameters(), null);
+
+            // Créez une nouvelle ImageView pour imprimer
+            ImageView imageView = new ImageView(snapshot);
+
+            // Déplacer la copie en haut à gauche
+            imageView.setTranslateX(-imageView.getBoundsInParent().getMinX());
+            imageView.setTranslateY(-imageView.getBoundsInParent().getMinY());
+
+            boolean proceed = job.showPrintDialog(borderPane.getScene().getWindow());
+            if (proceed) {
+                // Imprimer la copie
+                job.printPage(imageView);
+                job.endJob();
+            }
+        }
+    }
+
     private void renderBoxSequentiel() {
         if (sequentiel.getHorizontal()) {
             boxSequentiel = new HBox();
