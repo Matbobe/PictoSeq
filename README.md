@@ -23,22 +23,22 @@ L'application est conçue pour être performante, avec un temps d'échange avec 
 L'application a été développée en utilisant Javafx. L'évaluation se fera sur le code de l'application et sur l'application elle-même.
 
 ## 6. TODO
-| Fonctionnalité                                                      | Description                                                                                                                      | État          |
-|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|---------------|
-| Recherche de pictogrammes                                           | Implémenter la fonctionnalité permettant de rechercher des pictogrammes par mot-clé ou en parcourant des catégories prédéfinies. | Fait          |
-| Création de séquences de pictogrammes                               | Développer la fonctionnalité pour créer de nouvelles séquences de pictogrammes.                                                  | Fait          |
-| Suppression de séquences de pictogrammes                            | Ajouter la possibilité de supprimer des séquences de pictogrammes existantes.                                                    | Fait          |
-| Ajout de pictogrammes aux séquences                                 | Permettre l'ajout de pictogrammes dans les séquences à partir des résultats de recherche.                                        | En cours      |
-| Retrait de pictogrammes des séquences                               | Implémenter la fonctionnalité pour retirer des pictogrammes des séquences.                                                       | Pas commencer |
-| Édition de pictogrammes dans les séquences                          | Ajouter la possibilité d'éditer (ajouter un texte) les pictogrammes dans les séquences.                                          | En cours      |
-| Réorganisation des pictogrammes dans les séquences                  | Permettre la réorganisation des pictogrammes dans les séquences.                                                                 | Pas commencer |
-| Choix de la position du texte sur le pictogramme                    | Ajouter une option pour choisir la position du texte sur le pictogramme.                                                         | En cours      |
-| Choix de l'affichage et du positionnement optionnel d'un numéro     | Implémenter la fonctionnalité pour choisir l'affichage et le positionnement optionnel d'un numéro.                               | En cours      |
-| Choix du type et de la couleur de la bordure pour toute la séquence | Ajouter une option pour choisir le type et la couleur de la bordure pour toute la séquence.                                      | En cours      |
-| Nomination des séquences                                            | Permettre de nommer les séquences.                                                                                               | En cours      |
-| Sauvegarde des séquences                                            | Implémenter la fonctionnalité pour sauvegarder les séquences.                                                                    | Fait          |
-| Ouverture des séquences                                             | Ajouter la possibilité d'ouvrir les séquences.                                                                                   | Fait          |
-| Impression d'une séquence                                           | Développer la fonctionnalité pour imprimer une séquence (génération d'un PDF).                                                   | Pas commencer |
+| Fonctionnalité                                                      | Description                                                                                                                      | État     |
+|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|----------|
+| Recherche de pictogrammes                                           | Implémenter la fonctionnalité permettant de rechercher des pictogrammes par mot-clé ou en parcourant des catégories prédéfinies. | Fait     |
+| Création de séquences de pictogrammes                               | Développer la fonctionnalité pour créer de nouvelles séquences de pictogrammes.                                                  | Fait     |
+| Suppression de séquences de pictogrammes                            | Ajouter la possibilité de supprimer des séquences de pictogrammes existantes.                                                    | Fait     |
+| Ajout de pictogrammes aux séquences                                 | Permettre l'ajout de pictogrammes dans les séquences à partir des résultats de recherche.                                        | Fait     |
+| Retrait de pictogrammes des séquences                               | Implémenter la fonctionnalité pour retirer des pictogrammes des séquences.                                                       | En cours |
+| Édition de pictogrammes dans les séquences                          | Ajouter la possibilité d'éditer (ajouter un texte) les pictogrammes dans les séquences.                                          | En cours |
+| Réorganisation des pictogrammes dans les séquences                  | Permettre la réorganisation des pictogrammes dans les séquences.                                                                 | En cours |
+| Choix de la position du texte sur le pictogramme                    | Ajouter une option pour choisir la position du texte sur le pictogramme.                                                         | En cours |
+| Choix de l'affichage et du positionnement optionnel d'un numéro     | Implémenter la fonctionnalité pour choisir l'affichage et le positionnement optionnel d'un numéro.                               | En cours |
+| Choix du type et de la couleur de la bordure pour toute la séquence | Ajouter une option pour choisir le type et la couleur de la bordure pour toute la séquence.                                      | En cours |
+| Nomination des séquences                                            | Permettre de nommer les séquences.                                                                                               | Fait     |
+| Sauvegarde des séquences                                            | Implémenter la fonctionnalité pour sauvegarder les séquences.                                                                    | Fait     |
+| Ouverture des séquences                                             | Ajouter la possibilité d'ouvrir les séquences.                                                                                   | Fait     |
+| Impression d'une séquence                                           | Développer la fonctionnalité pour imprimer une séquence (génération d'un PDF).                                                   | Fait     |
 
 ## 7. Conclusion
 Cette application offre une solution efficace pour la gestion de séquentiels de pictogrammes, aidant ainsi les personnes en situation de handicap à communiquer de manière plus efficace.
