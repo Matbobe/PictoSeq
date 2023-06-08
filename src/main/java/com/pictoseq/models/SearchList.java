@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -115,6 +118,10 @@ public class SearchList {
                             plus.setVisible(false);
                             pane.setStyle("-fx-background-color: #ffffff");
                         });
+
+                        setDragAndDropHandlers(pictograme, pane);
+
+
                         nbRendered++;
                     });
                 }
@@ -123,4 +130,24 @@ public class SearchList {
         };
         new Thread(task).start();
     }
+
+    private void setDragAndDropHandlers(Pictograme pictograme, Pane pane) {
+        ImageView imageView = (ImageView) pictograme.getImageView();
+        pane.setOnDragDetected(event -> {
+            /* Début du glisser */
+            Dragboard dragboard = pane.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            dragboard.setContent(content);
+            event.consume();
+        });
+
+        pane.setOnDragDone(event -> {
+            /* Fin du glisser */
+            editController.addPictogramme(new Pictograme(pictograme));
+            event.consume();
+        });
+    }
+
 }
+

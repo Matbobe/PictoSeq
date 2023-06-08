@@ -13,9 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -121,6 +119,9 @@ public class EditController {
 
             event.consume();
         });
+
+        // drag and drop pour ajouter un pictogramme
+
 
         idNum.setOnAction(event -> {
             sequentiel.changeDirectionOfNumbers(idNum.getValue());
@@ -255,7 +256,30 @@ public class EditController {
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
         loadPictogramme(pictograme);
+        setDragAndDropHandlers((ImageView) pictograme.getImageView());
     }
+
+    private void setDragAndDropHandlers(ImageView imageView) {
+        imageView.setOnDragDetected(event -> {
+            /* Début du glisser */
+            Dragboard dragboard = imageView.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            dragboard.setContent(content);
+            event.consume();
+        });
+
+        imageView.setOnDragDone(event -> {
+            /* Fin du glisser */
+            if (event.isAccepted()) {
+                // Le glisser-déposer a été accepté par une zone de dépôt valide
+                // Ajoutez ici le code pour traiter l'action du glisser-déposer
+            }
+            event.consume();
+        });
+    }
+
+
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
         this.sequentiel = sequentiel;
