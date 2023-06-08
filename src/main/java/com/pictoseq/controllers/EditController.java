@@ -70,6 +70,8 @@ public class EditController {
     private double scrollPositionY;
     private Scale scaleTransform = new Scale(1.0, 1.0);
     private Translate translateTransform = new Translate(0.0, 0.0);
+    private static final double ZOOM_MIN = 0.5;
+    private static final double ZOOM_MAX = 10.0;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -110,8 +112,17 @@ public class EditController {
         // Gestionnaire d'événements pour le zoom
         scrollPaneSequentiel.setOnScroll(event -> {
             double zoomFactor = event.getDeltaY() > 0 ? 1.1 : 0.9;
-            scaleTransform.setX(scaleTransform.getX() * zoomFactor);
-            scaleTransform.setY(scaleTransform.getY() * zoomFactor);
+            double newScaleX = scaleTransform.getX() * zoomFactor;
+            double newScaleY = scaleTransform.getY() * zoomFactor;
+
+            // Vérifier les limites du zoom minimal et maximal
+            if (newScaleX >= ZOOM_MIN && newScaleX <= ZOOM_MAX &&
+                    newScaleY >= ZOOM_MIN && newScaleY <= ZOOM_MAX) {
+                scaleTransform.setX(newScaleX);
+                scaleTransform.setY(newScaleY);
+            }
+
+            event.consume();
         });
 
         idNum.setOnAction(event -> {
