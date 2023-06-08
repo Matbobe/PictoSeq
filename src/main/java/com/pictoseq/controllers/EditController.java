@@ -1,9 +1,6 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.models.Log;
-import com.pictoseq.models.Pictograme;
-import com.pictoseq.models.SearchList;
-import com.pictoseq.models.Sequentiel;
+import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,6 +70,7 @@ public class EditController {
     private Translate translateTransform = new Translate(0.0, 0.0);
     private static final double ZOOM_MIN = 0.5;
     private static final double ZOOM_MAX = 10.0;
+    private MainController mainController;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -352,6 +350,15 @@ public class EditController {
         boxSequentiel.getChildren().clear();
     }
 
+    @FXML
+    private void onButtonSaveClick() {
+        mainController.save();
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+        onButtonSaveClick();
+    }
     private void addNameViewSequenciel(){
         HBox container = new HBox();
         Text nameSequentiel = new Text();
