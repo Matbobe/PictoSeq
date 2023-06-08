@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,10 +36,15 @@ public class Pictograme implements Serializable {
 
     @JsonCreator
     public Pictograme(@JsonProperty("_id") String _id,
-                      @JsonProperty("keyword") String keyword,
+                      @JsonProperty("keywords") JsonNode keywords,
                       @JsonProperty("categories") LinkedList<String> categories) {
         this._id = _id;
-        this.keyword = keyword;
+        if (keywords != null && keywords.isArray() && keywords.size() > 0) {
+            JsonNode firstKeywordNode = keywords.get(0);
+            if (firstKeywordNode.has("keyword"))
+                this.keyword = firstKeywordNode.get("keyword").asText();
+            else this.keyword = null;
+        } else this.keyword = null;
         this.categories = categories;
     }
 
@@ -108,3 +114,5 @@ public class Pictograme implements Serializable {
         return imageView;
     }
 }
+
+
