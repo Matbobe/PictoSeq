@@ -1,9 +1,6 @@
 package com.pictoseq.controllers;
 
-import com.pictoseq.models.Log;
-import com.pictoseq.models.Pictograme;
-import com.pictoseq.models.SearchList;
-import com.pictoseq.models.Sequentiel;
+import com.pictoseq.models.*;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -72,6 +67,7 @@ public class EditController {
     private Translate translateTransform = new Translate(0.0, 0.0);
     private static final double ZOOM_MIN = 0.5;
     private static final double ZOOM_MAX = 10.0;
+    private MainController mainController;
 
     @FXML
     void onRetourClick(ActionEvent event) {
@@ -124,6 +120,9 @@ public class EditController {
 
             event.consume();
         });
+
+        // drag and drop pour ajouter un pictogramme
+
 
         idNum.setOnAction(event -> {
             sequentiel.changeDirectionOfNumbers(idNum.getValue());
@@ -374,7 +373,30 @@ public class EditController {
     public void addPictogramme(Pictograme pictograme) {
         sequentiel.addPictograme(pictograme);
         loadPictogramme(pictograme);
+        setDragAndDropHandlers((ImageView) pictograme.getImageView());
     }
+
+    private void setDragAndDropHandlers(ImageView imageView) {
+        imageView.setOnDragDetected(event -> {
+            /* Début du glisser */
+            Dragboard dragboard = imageView.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(imageView.getImage());
+            dragboard.setContent(content);
+            event.consume();
+        });
+
+        imageView.setOnDragDone(event -> {
+            /* Fin du glisser */
+            if (event.isAccepted()) {
+                // Le glisser-déposer a été accepté par une zone de dépôt valide
+                // Ajoutez ici le code pour traiter l'action du glisser-déposer
+            }
+            event.consume();
+        });
+    }
+
+
     public void setSequentiel(Sequentiel sequentiel) {
         sequentiel.render(client);
         this.sequentiel = sequentiel;
@@ -476,6 +498,15 @@ public class EditController {
         boxSequentiel.getChildren().clear();
     }
 
+    @FXML
+    private void onButtonSaveClick() {
+        mainController.save();
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+        onButtonSaveClick();
+    }
     private void addNameViewSequenciel(){
         HBox container = new HBox();
         Text nameSequentiel = new Text();
