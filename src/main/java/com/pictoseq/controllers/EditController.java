@@ -90,7 +90,6 @@ public class EditController {
 
         // Gestionnaire d'événements pour le drag
         contentPane.setOnMousePressed(event -> {
-            System.out.println("Pressed");
             if (event.getButton() == MouseButton.PRIMARY) {
                 dragStartX = event.getX();
                 dragStartY = event.getY();
@@ -100,7 +99,6 @@ public class EditController {
         });
 
         contentPane.setOnMouseDragged(event -> {
-            System.out.println("Dragged");
             if (event.getButton() == MouseButton.PRIMARY) {
                 double offsetX = event.getX() - dragStartX;
                 double offsetY = event.getY() - dragStartY;
@@ -111,7 +109,6 @@ public class EditController {
 
         // Gestionnaire d'événements pour le zoom
         scrollPaneSequentiel.setOnScroll(event -> {
-            System.out.println("Scrolled");
             double zoomFactor = event.getDeltaY() > 0 ? 1.1 : 0.9;
             scaleTransform.setX(scaleTransform.getX() * zoomFactor);
             scaleTransform.setY(scaleTransform.getY() * zoomFactor);
