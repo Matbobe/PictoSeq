@@ -207,6 +207,7 @@ public class EditController {
 
     private void loadPictogramme(Pictograme pictograme) {
         Log.println("Added pictogram to the sequentiel");
+        Pane basePane = new Pane();
         Pane newPane;
         String dir = idNum.getValue().toString();
         if (dir.equals("En haut")) {
@@ -225,18 +226,32 @@ public class EditController {
             newPane = new HBox();
             newPane.getChildren().addAll(pictograme.getImageView(),new Label(""));
         }
-        newPane.setOnContextMenuRequested(event -> {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem delete = new MenuItem("Supprimer");
-            delete.setOnAction(event1 -> {
-                sequentiel.removePictograme(pictograme);
-                boxSequentiel.getChildren().remove(newPane);
-                updateIndexPictogrames();
-            });
-            contextMenu.getItems().add(delete);
-            contextMenu.show(newPane, event.getScreenX(), event.getScreenY());
+        Image removeImage = new Image(getClass().getResourceAsStream("/images/delete-icon.png"));
+        ImageView removeImageView = new ImageView(removeImage);
+        removeImageView.setFitHeight(20);
+        removeImageView.setFitWidth(20);
+        Pane paneRemoveImageView = new Pane();
+        paneRemoveImageView.setOnMouseClicked(event -> {
+            sequentiel.removePictograme(pictograme);
+            boxSequentiel.getChildren().remove(basePane);
+            updateIndexPictogrames();
         });
-        boxSequentiel.getChildren().add(newPane);
+        paneRemoveImageView.getChildren().add(removeImageView);
+        Pane paneLeftArrow = new Pane();
+        Image leftArrowImage = new Image(getClass().getResourceAsStream("/images/left-arrow.png"));
+        paneLeftArrow.setOnMouseClicked(event -> {
+            int index = sequentiel.indexOf(pictograme);
+            if (index > 0) {
+                sequentiel.swapPictogrames(index,index-1);
+                renderBoxSequentiel();
+                renderVBoxSequentiel();
+                contentPane.getChildren().setAll(vboxSequentiel);
+            } else {
+                Log.println("Can't swap pictogrames");
+            }
+        });
+        basePane.getChildren().addAll(newPane,paneRemoveImageView);
+        boxSequentiel.getChildren().add(basePane);
     }
 
     private void updateIndexPictogrames(){
@@ -245,9 +260,12 @@ public class EditController {
             String direction = idNum.getValue().toString();
             Pane pane = (Pane)boxSequentiel.getChildren().get(i);
             if (direction.equals("En haut") || direction.equals("À gauche")) {
-                ((Label)pane.getChildren().get(0)).setText(index);
+                Pane panePicto = (Pane)pane.getChildren().get(0);
+                ((Label)panePicto.getChildren().get(0)).setText(index);
+
             } else {
-                ((Label)pane.getChildren().get(1)).setText(index);
+                Pane panePicto = (Pane)pane.getChildren().get(0);
+                ((Label)panePicto.getChildren().get(1)).setText(index);
             }
 
         }

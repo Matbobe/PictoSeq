@@ -142,8 +142,17 @@ public class Sequentiel implements Serializable {
         }
         return imageViews;
     }
+
+    public int indexOf(Pictograme pictograme) {
+        return pictogrameList.indexOf(pictograme);
+    }
     public Pictograme getPictogramme(int i) {
         return pictogrameList.get(i);
     }
 
+    public void swapPictogrames(int index, int i) {
+        Pictograme temp = pictogrameList.get(index);
+        pictogrameList.set(index, pictogrameList.get(i));
+        pictogrameList.set(i, temp);
+    }
 }
