@@ -5,10 +5,16 @@ import com.pictoseq.controllers.PersistentModelManager;
 import java.io.*;
 
 public class PersistenceBySerialization implements PersistentModelManager {
-    private static final String SAVE_FILE = "saveFile";
+    private String path;
+
+    public PersistenceBySerialization() {
+        String userDirectory = System.getProperty("user.home");
+        this.path = userDirectory + File.separator + "AppData" + File.separator + "Local.PictoSeq.save";
+    }
+
     @Override
     public void save(SequentielList model) {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(SAVE_FILE)))
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path)))
         {
             objectOutputStream.writeObject(model);
             objectOutputStream.flush();
@@ -23,7 +29,7 @@ public class PersistenceBySerialization implements PersistentModelManager {
     public SequentielList load() {
         SequentielList model = null;
 
-        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(SAVE_FILE)))
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(path)))
         {
             model = (SequentielList) input.readObject();
             Log.println("Save file loaded");
