@@ -20,7 +20,7 @@ La persistance des données est réalisée par sérialisation/désérialisation 
 
 Le fichier se trouve :
 ```
-C:\Users\<username>\AppData\Local
+C:\Users\<username>\AppData\Local\PictoSeq
 ```
 
 ## 4. Performance et robustesse
