@@ -16,6 +16,11 @@ L'application utilise l'API d'Arasaac pour obtenir les images des pictogrammes. 
 ## 3. Persistance des données
 La persistance des données est réalisée par sérialisation/désérialisation dans un fichier. Cela permet de sauvegarder l'état actuel de l'application et de le restaurer lors de la prochaine ouverture.
 
+Le fichier se trouve :
+```
+C:\Users\<username>\AppData\Local
+```
+
 ## 4. Performance et robustesse
 L'application est conçue pour être performante, avec un temps d'échange avec l'API inférieur à 1 seconde. Elle est également robuste et offre une persistance locale par fichier.
 
