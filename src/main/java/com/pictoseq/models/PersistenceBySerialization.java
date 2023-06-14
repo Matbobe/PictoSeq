@@ -3,13 +3,24 @@ package com.pictoseq.models;
 import com.pictoseq.controllers.PersistentModelManager;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class PersistenceBySerialization implements PersistentModelManager {
     private String path;
 
     public PersistenceBySerialization() {
         String userDirectory = System.getProperty("user.home");
-        this.path = userDirectory + File.separator + "AppData" + File.separator + "Local.PictoSeq.save";
+        Path path = Paths.get(userDirectory, "AppData", "Local", "PictoSeq");
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            Log.printError("Error while creating save directory");
+            e.printStackTrace();
+        }
+        path = Paths.get(path.toString(), "save");
+        this.path = path.toString();
     }
 
     @Override
