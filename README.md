@@ -1,4 +1,4 @@
-![Header](./src/main/ressources/images/github-header-image.png)
+![Header](./src/main/resources/images/github-header-image.png)
 
 # Documentation de l'Application PictoSeq
 Cette application a été conçue pour aider à la Communication Alternative et Améliorée (CAA), offrant des stratégies alternatives à la parole pour les personnes en situation de handicap. Elle permet créer et modifier des séquentiels de pictogrammes.
